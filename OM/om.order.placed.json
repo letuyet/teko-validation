@@ -45,18 +45,18 @@
     "id": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "code":{
+    "code": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "createdAt":{
+    "createdAt": {
       "$ref": "#/definitions/nonEmptyNumber",
       "maximum": "$CURRENT_TIMESTAMPS"
     },
-    "channel":{
+    "channel": {
       "$ref": "#/definitions/nonEmptyInteger"
     },
-    "salesmanId":{
-      "oneOf":[
+    "salesmanId": {
+      "oneOf": [
         {
           "type": "integer"
         },
@@ -65,21 +65,21 @@
         }
       ]
     },
-    "storeId":{
+    "storeId": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "storeName":{
+    "storeName": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "priceTable":{
+    "priceTable": {
       "type": "integer",
       "minimum": 0
     },
-    "paymentDuration":{
+    "paymentDuration": {
       "type": "integer",
       "minimum": 0
     },
-    "grandTotal":{
+    "grandTotal": {
       "type": "number",
       "minimum": 0,
       "allOf": [
@@ -117,170 +117,170 @@
         }
       ]
     },
-    "totalDiscount":{
-      "type":"number",
+    "totalDiscount": {
+      "type": "number",
       "minimum": 0,
       "maximum": {
         "$data": "/grandTotal"
       }
     },
-    "paidAmount":{
-      "type":"number",
+    "paidAmount": {
+      "type": "number",
       "minimum": 0,
       "maximum": {
         "$data": "/grandTotal"
       }
     },
-    "COD":{
-      "type":"number",
+    "COD": {
+      "type": "number",
       "minimum": 0,
       "maximum": {
         "$data": "/grandTotal"
       }
     },
-    "otherAmount":{
-      "type":"number",
+    "otherAmount": {
+      "type": "number",
       "minimum": 0,
       "maximum": {
         "$data": "/grandTotal"
       }
     },
-    "inventoryCode":{
+    "inventoryCode": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "note":{
-      "type":"string"
+    "note": {
+      "type": "string"
     },
-    "shipDate":{
+    "shipDate": {
       "$ref": "#/definitions/nonEmptyNumber",
       "minimum": "$CURRENT_TIMESTAMPS"
     },
-    "install":{
-      "oneOf":[
+    "install": {
+      "oneOf": [
         {
-          "type":"boolean"
+          "type": "boolean"
         },
         {
-          "type":"null"
+          "type": "null"
         }
       ],
-      "err_msg":"error install"
+      "err_msg": "error install"
     },
-    "delivery":{
-      "oneOf":[
+    "delivery": {
+      "oneOf": [
         {
-          "type":"boolean"
+          "type": "boolean"
         },
         {
-          "type":"null"
+          "type": "null"
         }
       ],
-      "err_msg":"error delivery"
+      "err_msg": "error delivery"
     },
-    "technicalSupport":{
-      "oneOf":[
+    "technicalSupport": {
+      "oneOf": [
         {
-          "type":"boolean"
+          "type": "boolean"
         },
         {
-          "type":"null"
+          "type": "null"
         }
       ],
-      "err_msg":"error technicalSupport"
+      "err_msg": "error technicalSupport"
     },
-    "payments":{
-      "type":"array",
-      "minItems":1,
-      "items":{
-        "type":"object",
-        "required":[
+    "payments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
           "opsId",
           "paymentId",
           "paymentMethod",
           "amount"
         ],
-        "properties":{
-          "opsId":{
-            "type":"integer",
+        "properties": {
+          "opsId": {
+            "type": "integer",
             "minimum": 0
           },
-          "paymentId":{
-            "type":"string",
+          "paymentId": {
+            "type": "string",
             "minimum": 0
           },
-          "paymentMethod":{
-            "type":"string",
+          "paymentMethod": {
+            "type": "string",
             "minimum": 0
           },
-          "bankAccount":{
-            "oneOf":[
+          "bankAccount": {
+            "oneOf": [
               {
-                "type":"string"
+                "type": "string"
               },
               {
-                "type":"null"
+                "type": "null"
               }
             ],
             "err_msg": "bank_account"
           },
-          "ref":{
-            "oneOf":[
+          "ref": {
+            "oneOf": [
               {
-                "type":"string"
+                "type": "string"
               },
               {
-                "type":"null"
+                "type": "null"
               }
             ],
             "err_msg": "bank_account"
           },
-          "amount":{
+          "amount": {
             "$ref": "#/definitions/nonEmptyInteger"
           },
-          "timeTransfer":{
-            "oneOf":[
+          "timeTransfer": {
+            "oneOf": [
               {
                 "$ref": "#/definitions/nonEmptyNumber",
                 "maximum": "$CURRENT_TIMESTAMPS"
               },
               {
-                "type":"null"
+                "type": "null"
               }
             ],
             "err_msg": "time_transfer"
           },
-          "debtorId":{
-            "oneOf":[
+          "debtorId": {
+            "oneOf": [
               {
-                "type":"integer"
+                "type": "integer"
               },
               {
-                "type":"null"
+                "type": "null"
               }
             ],
             "err_msg": "debtorId"
           }
         },
-        "allOf":[
+        "allOf": [
           {
-            "oneOf":[
+            "oneOf": [
               {
-                "properties":{
-                  "paymentMethod":{
-                    "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "enum": [
                       "CARD"
                     ]
                   },
-                  "ref":{
+                  "ref": {
                     "$ref": "#/definitions/nonEmptyString"
                   }
                 }
               },
               {
-                "properties":{
-                  "paymentMethod":{
-                    "not":{
-                      "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "not": {
+                      "enum": [
                         "CARD"
                       ]
                     }
@@ -291,24 +291,24 @@
             "err_msg": "payments.paymentMethod = CARD, payments.ref != null|empty"
           },
           {
-            "oneOf":[
+            "oneOf": [
               {
-                "properties":{
-                  "paymentMethod":{
-                    "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "enum": [
                       "DEBT"
                     ]
                   },
-                  "debtorId":{
+                  "debtorId": {
                     "$ref": "#/definitions/nonEmptyInteger"
                   }
                 }
               },
               {
-                "properties":{
-                  "paymentMethod":{
-                    "not":{
-                      "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "not": {
+                      "enum": [
                         "DEBT"
                       ]
                     }
@@ -320,129 +320,192 @@
           }
         ]
       }
-          },
-    "customer":{
-      "type":"object",
-      "required":[
+    },
+    "customer": {
+      "type": "object",
+      "required": [
         "id",
         "crmId",
         "name",
         "phone",
         "address"
       ],
-      "properties":{
-        "id":{
+      "properties": {
+        "id": {
           "type": "integer",
           "minimum": 0
         },
-        "crmId":{
+        "crmId": {
           "type": "integer",
           "minimum": 0
         },
-        "name":{
+        "name": {
           "$ref": "#/definitions/nonEmptyString"
         },
-        "phone":{
+        "phone": {
           "$ref": "#/definitions/nonEmptyString",
           "pattern": "^[^a-zA-Z]+$"
         },
-        "address":{
+        "address": {
           "$ref": "#/definitions/nonEmptyString"
         }
       }
     },
-    "addresses":{
-      "type":"object",
-      "properties":{
-        "shipping":{
-          "type": "object",
-          "properties":{
-            "name":{
-              "type": ["string", "null"]
-            },
-            "street":{
-              "type": ["string", "null"]
-            },
-            "addressCode":{
-              "type": ["string", "null"]
-            },
-            "email":{
-              "type": ["string", "null"]
-            },
-            "telephone":{
-              "type": ["string", "null"]
-            }
-          }
+    "addresses": {
+      "oneOf": [
+        {
+          "type": "null"
         },
-        "billing":{
+        {
           "type": "object",
-          "properties":{
-            "name":{
-              "type": ["string", "null"]
-            },
-            "email":{
-              "type": ["string", "null"]
-            },
-            "address":{
-              "type": ["string", "null"]
-            },
-            "telephone":{
-              "type": ["string", "null"]
-            },
-            "taxCode":{
-              "type": ["string", "null"]
-            },
-            "billingType":{
-              "type": ["string", "null"]
-            },
-            "printAfter":{
-              "type": ["integer", "null"]
-            },
-            "printPretaxPrice":{
-              "type": ["boolean", "null"]
-            }
-          },
-          "allOf":[
-            {
-              "oneOf":[
+          "properties": {
+            "shipping": {
+              "oneOf": [
                 {
-                  "properties":{
-                    "name":{
-                      "$ref": "#/definitions/nonEmptyString"
-                    },
-                    "address":{
-                      "$ref": "#/definitions/nonEmptyString"
-                    },
-                    "taxCode":{
-                      "$ref": "#/definitions/nonEmptyString",
-                      "pattern": "^[0-9]+$"
-                    },
-                    "billingType":{
-                      "$ref": "#/definitions/nonEmptyString"
-                    }
-                  }
+                  "type": "null"
                 },
                 {
-                  "properties":{
-                    "name":{
-                      "not":{
-                        "type": ["string", "null"]
-                      }
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "street": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "addressCode": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "email": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "telephone": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     }
                   }
                 }
-              ],
-              "err_msg":"If address.billing.name#null|empty, address, taxCode, billingType != null|empty, taxCode khong chua ki tu chu cai"
+              ]
+            },
+            "billing": {
+              "oneOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "email": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "address": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "telephone": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "taxCode": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "billingType": {
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "printAfter": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "printPretaxPrice": {
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    }
+                  },
+                  "allOf": [
+                    {
+                      "oneOf": [
+                        {
+                          "properties": {
+                            "name": {
+                              "$ref": "#/definitions/nonEmptyString"
+                            },
+                            "address": {
+                              "$ref": "#/definitions/nonEmptyString"
+                            },
+                            "taxCode": {
+                              "$ref": "#/definitions/nonEmptyString",
+                              "pattern": "^[0-9]+$"
+                            },
+                            "billingType": {
+                              "$ref": "#/definitions/nonEmptyString"
+                            }
+                          }
+                        },
+                        {
+                          "properties": {
+                            "name": {
+                              "not": {
+                                "type": [
+                                  "string",
+                                  "null"
+                                ]
+                              }
+                            }
+                          }
+                        }
+                      ],
+                      "err_msg": "If address.billing.name#null|empty, address, taxCode, billingType != null|empty, taxCode khong chua ki tu chu cai"
+                    }
+                  ]
+                }
+              ]
             }
-          ]
+          }
         }
-      }
+      ]
     },
-    "items":{
-      "type":"array",
+    "items": {
+      "type": "array",
       "minItems": 1,
-      "items":{
-        "required":[
+      "items": {
+        "required": [
           "sku",
           "name",
           "quantity",
@@ -452,33 +515,33 @@
           "price",
           "rowTotal"
         ],
-        "properties":{
-          "sku":{
+        "properties": {
+          "sku": {
             "$ref": "#/definitions/nonEmptyString"
           },
-          "name":{
+          "name": {
             "$ref": "#/definitions/nonEmptyString"
           },
-          "quantity":{
+          "quantity": {
             "$ref": "#/definitions/nonEmptyNumber"
           },
-          "vat":{
+          "vat": {
             "type": "number",
             "minimum": 0
           },
-          "unitPrice":{
+          "unitPrice": {
             "$ref": "#/definitions/nonEmptyNumber"
           },
-          "discountAmount":{
-            "type":"number",
+          "discountAmount": {
+            "type": "number",
             "minimum": 0
           },
-          "price":{
-            "type":"number",
+          "price": {
+            "type": "number",
             "minimum": 0
           },
-          "rowTotal":{
-            "type":"number",
+          "rowTotal": {
+            "type": "number",
             "minimum": 0
           }
         },
@@ -521,66 +584,73 @@
       }
     }
   },
-  "allOf":[
+  "allOf": [
     {
-      "oneOf":[
+      "oneOf": [
         {
-          "properties":{
-            "channel":{
-              "enum":[
-                1, 3, 4
+          "properties": {
+            "channel": {
+              "enum": [
+                1,
+                3,
+                4
               ]
             },
-            "salesmanId":{
+            "salesmanId": {
               "$ref": "#/definitions/nonEmptyInteger"
             }
           }
         },
         {
-          "properties":{
-            "channel":{
-              "not":{
-                "enum":[
-                  1, 3, 4
+          "properties": {
+            "channel": {
+              "not": {
+                "enum": [
+                  1,
+                  3,
+                  4
                 ]
               }
             },
-            "salesmanId":{
-              "type": ["integer", "null"]
+            "salesmanId": {
+              "type": [
+                "integer",
+                "null"
+              ]
             }
           }
         }
       ],
-      "err_msg":"If channel = Agent|Direct|Telesale, salesmanId != null|empty"
+      "err_msg": "If channel = Agent|Direct|Telesale, salesmanId != null|empty"
     },
     {
-      "oneOf":[
+      "oneOf": [
         {
-          "properties":{
-            "payments":{
-              "properties":{
-                "paymentMethod":{
-                  "enum":[
+          "properties": {
+            "payments": {
+              "properties": {
+                "paymentMethod": {
+                  "enum": [
                     "COD"
                   ]
                 }
               }
             },
-            "addresses":{
-              "properties":{
-                "shipping":{
-                  "properties":{
-                    "name":{
+            "addresses": {
+              "properties": {
+                "shipping": {
+                  "properties": {
+                    "name": {
                       "$ref": "#/definitions/nonEmptyString"
                     },
-                    "street":{
+                    "street": {
                       "$ref": "#/definitions/nonEmptyString"
                     },
-                    "addressCode":{
+                    "addressCode": {
                       "$ref": "#/definitions/nonEmptyString",
                       "pattern": "^[0-9]+$"
                     },
-                    "telephone":{
+                    "telephone": {
                       "$ref": "#/definitions/nonEmptyString",
                       "pattern": "^[^a-zA-Z]+$"
                     }
@@ -595,11 +665,50 @@
             "payments": {
               "properties": {
                 "paymentMethod": {
-                  "not":{
+                  "not": {
                     "enum": [
                       "COD"
                     ]
                   }
+                }
+              }
+            },
+            "addresses": {
+              "properties": {
+                "shipping": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "street": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "addressCode": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "telephone": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
                 }
               }
             }
@@ -609,29 +718,29 @@
       "err_msg": "if paymentMethod = COD, shipping required, addressCode va telephone chua ki tu khac chu cai"
     },
     {
-      "oneOf":[
+      "oneOf": [
         {
-          "properties":{
-            "delivery":{
-              "enum":[
+          "properties": {
+            "delivery": {
+              "enum": [
                 true
               ]
             },
-            "addresses":{
-              "properties":{
-                "shipping":{
-                  "properties":{
-                    "name":{
+            "addresses": {
+              "properties": {
+                "shipping": {
+                  "properties": {
+                    "name": {
                       "$ref": "#/definitions/nonEmptyString"
                     },
-                    "street":{
+                    "street": {
                       "$ref": "#/definitions/nonEmptyString"
                     },
-                    "addressCode":{
+                    "addressCode": {
                       "$ref": "#/definitions/nonEmptyString",
                       "pattern": "^[0-9]+$"
                     },
-                    "telephone":{
+                    "telephone": {
                       "$ref": "#/definitions/nonEmptyString",
                       "pattern": "^[^a-zA-Z]+$"
                     }
@@ -647,6 +756,45 @@
               "enum": [
                 false
               ]
+            },
+            "addresses": {
+              "properties": {
+                "shipping": {
+                  "oneOf": [
+                    {
+                      "properties": {
+                        "name": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "street": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "addressCode": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "telephone": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
             }
           }
         }

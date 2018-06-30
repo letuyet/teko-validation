@@ -1,6 +1,6 @@
 {
-  "orderId": "2906_8",
-  "requestCode": "ASIA2906_8",
+  "orderId": "3006_2",
+  "requestCode": "export_3006_2",
   "storeAddress": "408",
   "addresses": {
     "shipping": {
@@ -26,9 +26,9 @@
   "storeName": "Thai Ha",
   "totalDiscount": 1000000.0,
   "purchaseAt": 1530242548,
-  "paidAmount": 2000000.0,
+  "paidAmount": 0.0,
   "salesmanId": 50195,
-  "orderCode": "2906_8",
+  "orderCode": "3006_1",
   "payments": [],
   "items": [
     {
@@ -42,12 +42,11 @@
     }
   ],
   "otherAmount": 0.0,
-  "shipDate": 1530328948,
+  "shipDate": 1540329379,
   "channel": 3,
   "inventoryCode": "0101",
   "customerName": "Tuyết",
-  "COD": 7000000.0,
+  "COD": 9000000.0,
   "grandTotal": 10000000.0,
-  "note": "note",
-  "hehe": "hihi"
+  "note": "note"
 }

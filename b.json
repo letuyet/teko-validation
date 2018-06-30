@@ -1,0 +1,17 @@
+{
+  "importCode": "3006_1",
+  "storeCode": "CP09",
+  "inventoryCode": "CP09",
+  "createdAt": 1514458164,
+  "exportCode": "3006_1",
+  "logisticRequestCode": "ASIA3006_1",
+  "orderId": "3006_1",
+  "userID": "0001",
+  "full_return": true,
+  "items": [
+    {
+      "sku": "1704092",
+      "quantity": 10
+    }
+  ]
+}
