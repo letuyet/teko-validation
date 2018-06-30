@@ -1,0 +1,881 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "maxProperties": 21,
+  "minProperties": 20,
+  "required": [
+    "id",
+    "storeId",
+    "storeName",
+    "grandTotal",
+    "source",
+    "paidAmount",
+    "payments",
+    "userActionInfo",
+    "unpaidAmount",
+    "unpaidMethod",
+    "discountRuleName",
+    "discountDescription",
+    "customerId",
+    "customerName",
+    "customerNote",
+    "orderIdReplaced",
+    "orderCode",
+    "shipDate",
+    "createdAt",
+    "addresses",
+    "items"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/definitions/nonEmptyString",
+      "pattern": "^\\d+$",
+      "not": {
+        "enum": [
+          "0"
+        ]
+      }
+    },
+    "storeId": {
+      "$ref": "#/definitions/nonEmptyString",
+      "not": {
+        "enum": [
+          "0"
+        ]
+      }
+    },
+    "storeName": {
+      "$ref": "#/definitions/nonEmptyString",
+      "not": {
+        "pattern": "^\\d+$"
+      }
+    },
+    "grandTotal": {
+      "$ref": "#/definitions/nonEmptyString",
+      "pattern": "^[1-9]+\\d*\\.[0]{4}$",
+      "calculateAndCompare": {
+        "operation": [
+          {
+            "$totalItemsPrice": "/items"
+          }
+        ],
+        "err_msg": "grandTotal == sum(rowTotal) == sum(items.price*items.quantity)"
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "channel",
+        "terminalId",
+        "agentId"
+      ],
+      "properties": {
+        "channel": {
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "err_msg": "source.channel is string or null"
+            }
+          ]
+        },
+        "terminalId": {
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "err_msg": "source.channel is string or null"
+            }
+          ]
+        },
+        "agentId": {
+          "type": "string"
+        }
+      }
+    },
+    "paidAmount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "paidMethod",
+          "transactionData"
+        ],
+        "properties": {
+          "paidMethod": {
+            "enum": [
+              "BANK_TRANSFER",
+              "COD",
+              "ONLINE",
+              "INSTALMENT",
+              "INSTALMENT_FEE",
+              "INSTALMENT_COD",
+              "INSTALMENT_BANK_TRANSFER"
+            ]
+          },
+          "transactionData": {
+            "type": "object",
+            "required": [
+              "id",
+              "amount",
+              "partner",
+              "details"
+            ],
+            "properties": {
+              "id": {
+                "oneOf": [
+                  {
+                    "type": "integer"
+                  },
+                  {
+                    "type": "string"
+                  }
+                ]
+              },
+              "amount": {
+                "type": "integer",
+                "minimum": 0,
+                "exclusiveMinimum": true
+              },
+              "partner": {
+                "oneOf": [
+                  {
+                    "$ref": "#/definitions/nonEmptyString"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "details": {
+                "allOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "$ref": "#/definitions/nonEmptyString"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "paidMethod": {
+                    "enum": [
+                      "BANK_TRANSFER",
+                      "COD"
+                    ]
+                  },
+                  "transactionData": {
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "paidMethod": {
+                    "not": {
+                      "enum": [
+                        "BANK_TRANSFER",
+                        "COD"
+                      ]
+                    }
+                  },
+                  "transactionData": {
+                    "properties": {
+                      "id": {
+                        "$ref": "#/definitions/nonEmptyString",
+                        "pattern": "^\\d+$",
+                        "not": {
+                          "enum": [
+                            "0"
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            ],
+            "err_msg": "if payments.paidMethod = 'BANK_TRANSFER|COD', payments.transactionData.id is integer, else payments.transactionData.id is string"
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "paidMethod": {
+                    "enum": [
+                      "ONLINE"
+                    ]
+                  },
+                  "transactionData": {
+                    "properties": {
+                      "partner": {
+                        "enum": [
+                          "VNpay"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "paidMethod": {
+                    "enum": [
+                      "INSTALMENT",
+                      "INSTALMENT_FEE",
+                      "INSTALMENT_COD",
+                      "INSTALMENT_BANK_TRANSFER"
+                    ]
+                  },
+                  "transactionData": {
+                    "properties": {
+                      "partner": {
+                        "enum": [
+                          "ACS",
+                          "ALEPAY"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "paidMethod": {
+                    "enum": [
+                      "BANK_TRANSFER",
+                      "COD"
+                    ]
+                  }
+                }
+              }
+            ],
+            "err_msg": "if payments.paidMethod = 'ONLINE', payments.transactionData.partner = 'VNpay' and if payments.paidMethod = 'INSTALMENT,INSTALMENT_FEE,INSTALMENT_COD,INSTALMENT_BANK_TRANSFER', payments.transactionData.partner = 'ACS/ALEPAY'"
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "paidMethod": {
+                    "not": {
+                      "enum": [
+                        "COD"
+                      ]
+                    }
+                  },
+                  "transactionData": {
+                    "properties": {
+                      "detail": {
+                        "$ref": "#/definitions/nonEmptyString"
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "paidMethod": {
+                    "enum": [
+                      "COD"
+                    ]
+                  }
+                }
+              }
+            ],
+            "err_msg": "if payments.paidMethod != 'COD', payments.transactionData.detail != 'null', "
+          }
+        ]
+      }
+    },
+    "userActionInfo": {
+      "type": "object",
+      "required": [
+        "createdBy",
+        "confirmedBy"
+      ],
+      "properties": {
+        "createdBy": {
+          "type": "object",
+          "required": [
+            "id",
+            "asiaId",
+            "type"
+          ],
+          "properties": {
+            "id": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "asiaId": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "online_sales",
+                "offline_sales",
+                "customer",
+                "operator"
+              ]
+            }
+          }
+        },
+        "confirmedBy": {
+          "type": "object",
+          "required": [
+            "id",
+            "asiaId"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^\\d+$"
+            },
+            "asiaId": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "unpaidAmount": {
+      "type": "integer",
+      "minimum": 0,
+      "calculateAndCompare": {
+        "operation": [
+          {
+            "$data": "/grandTotal"
+          },
+          "-",
+          {
+            "$data": "/paidAmount"
+          }
+        ],
+        "err_msg": "unpaidAmount !=grandTotal-paidAmount"
+      }
+    },
+    "unpaidMethod": {
+      "$ref": "#/definitions/nonEmptyString",
+      "enum": [
+        "COD",
+        "BANK_TRANSFER"
+      ]
+    },
+    "discountRuleName": {
+      "type": "string"
+    },
+    "discountDescription": {
+      "type": "string"
+    },
+    "customerId": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "customerName": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "customerNote": {
+      "oneOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "orderIdReplaced": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "err_msg": "orderIdReplaced is string or null"
+        }
+      ]
+    },
+    "orderCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "shipDate": {
+      "oneOf": [
+        {
+          "type": "number"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "createdAt": {
+      "$ref": "#/definitions/nonEmptyInteger",
+      "maximum": "$CURRENT_TIMESTAMPS"
+    },
+    "addresses": {
+      "type": "object",
+      "maxProperties": 2,
+      "minProperties": 2,
+      "required": [
+        "shipping",
+        "billing"
+      ],
+      "properties": {
+        "shipping": {
+          "type": "object",
+          "maxProperties": 7,
+          "minProperties": 7,
+          "required": [
+            "addressCode",
+            "name",
+            "province",
+            "district",
+            "street",
+            "email",
+            "telephone"
+          ],
+          "properties": {
+            "addressCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^\\d+$",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "province": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "district": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "street": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "email": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "telephone": {
+              "type": "string"
+            }
+          }
+        },
+        "billing": {
+          "type": "object",
+          "maxProperties": 8,
+          "minProperties": 8,
+          "required": [
+            "addressCode",
+            "name",
+            "address",
+            "email",
+            "telephone",
+            "company",
+            "MaSoThue",
+            "sendTo"
+          ],
+          "properties": {
+            "addressCode": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString",
+              "not": {
+                "pattern": "^\\d+$"
+              }
+            },
+            "address": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "email": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "telephone": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "company": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "MaSoThue": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "sendTo": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "array"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "maxProperties": 14,
+        "minProperties": 14,
+        "required": [
+          "invoiceItemId",
+          "comboId",
+          "productId",
+          "productType",
+          "sku",
+          "quantity",
+          "price",
+          "discountPercent",
+          "discountAmount",
+          "rowTotal",
+          "unitPrice",
+          "warranty",
+          "warehouseId",
+          "note"
+        ],
+        "allOf": [
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/unitPrice"
+                },
+                "-",
+                {
+                  "$p_data": "/discountAmount"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/price"
+              },
+              "err_msg": "price != unitPrice-discountAmount"
+            }
+          },
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price"
+                },
+                "*",
+                {
+                  "$p_data": "/quantity"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/rowTotal"
+              },
+              "err_msg": "rowTotal != price*quantity"
+            }
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "discountPercent": {
+                    "not": {
+                      "enum": [
+                        "0.0000"
+                      ]
+                    }
+                  }
+                },
+                "calculateAndCompare": {
+                  "operation": [
+                    "float(",
+                    {
+                      "$p_data": "/unitPrice"
+                    },
+                    "-",
+                    {
+                      "$p_data": "/price"
+                    },
+                    ")",
+                    "/",
+                    {
+                      "$p_data": "/unitPrice"
+                    },
+                    "*",
+                    "100"
+                  ],
+                  "compareValue": {
+                    "$p_data": "/discountPercent"
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "discountPercent": {
+                    "enum": [
+                      "0.0000"
+                    ]
+                  }
+                }
+              }
+            ],
+            "err_msg": "if discountPercent#0 , discountPercent = (unitPrice-price)/unitPrice*100"
+          }
+        ],
+        "properties": {
+          "invoiceItemId": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^[0-9]*$",
+            "not": {
+              "enum": [
+                "0"
+              ]
+            }
+          },
+          "comboId": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  ""
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "productId": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "productType": {
+            "$ref": "#/definitions/nonEmptyString",
+            "enum": [
+              "simple"
+            ]
+          },
+          "sku": {
+            "$ref": "#/definitions/nonEmptyString"
+          },
+          "quantity": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^[1-9]+\\d*\\.[0]{4}$"
+          },
+          "price": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^\\d*\\.[0]{4}$"
+          },
+          "discountPercent": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^\\d*\\.\\d{4}$"
+          },
+          "discountAmount": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^\\d*\\.[0]{4}$"
+          },
+          "rowTotal": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^\\d*\\.[0]{4}$"
+          },
+          "unitPrice": {
+            "$ref": "#/definitions/nonEmptyString",
+            "pattern": "^[1-9]+\\d*\\.[0]{4}$"
+          },
+          "warranty": {
+            "type": "string"
+          },
+          "warehouseId": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "note": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties": {
+            "payment": {
+              "enum": [
+                null,
+                []
+              ]
+            },
+            "paidAmount": {
+              "enum": [
+                0
+              ]
+            }
+          }
+        },
+        {
+          "properties": {
+            "payments": {
+              "minItems": 1
+            },
+            "validatePaidAmount": {
+              "paidAmount": "/paidAmount",
+              "payments": "/payments",
+              "err_msg": "paidAmount = sum(payments.transactionData.amount)"
+            }
+          }
+        }
+      ],
+      "err_msg": "if paidAmount == 0 then payment == null, else paidAmount = sum(payments.transactionData.amount)"
+    }
+  ]
+}

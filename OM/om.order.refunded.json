@@ -1,0 +1,165 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "order_id",
+    "repaidAt",
+    "payCode",
+    "importCode",
+    "exportCode",
+    "inventoryCode",
+    "opsId",
+    "payments"
+  ],
+  "properties": {
+    "order_id":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "repaidAt":{
+      "$ref": "#/definitions/nonEmptyNumber",
+      "maximum": "$CURRENT_TIMESTAMPS"
+    },
+    "payCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "importCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "exportCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "inventoryCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "opsId":{
+      "type": "integer",
+      "minimum": 0
+    },
+    "payments":{
+      "type":"array",
+      "minItems":1,
+      "items":{
+        "type":"object",
+        "required":[
+          "paymentId",
+          "paymentMethod",
+          "amount"
+        ],
+        "properties":{
+          "paymentId":{
+            "type":"string",
+            "minimum": 0
+          },
+          "paymentMethod":{
+            "type":"string"
+          },
+          "bankAccount":{
+            "type":["string","null"]
+          },
+          "ref":{
+            "type":["string","null"]
+          },
+          "amount":{
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
+          }
+        },
+        "allOf":[
+          {
+            "oneOf":[
+              {
+                "properties":{
+                  "paymentMethod":{
+                    "enum":[
+                      "BANK"
+                    ]
+                  },
+                  "bankAccount":{
+                    "$ref": "#/definitions/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "properties":{
+                  "paymentMethod":{
+                    "not":{
+                      "enum":[
+                        "BANK"
+                      ]
+                    }
+                  },
+                  "bankAccount":{
+                    "type": ["string", "null"]
+                  }
+                }
+              }
+            ],
+            "err_msg": "payments.paymentMethod = BANK, payments.bankAccount != null|empty"
+          },
+          {
+            "oneOf":[
+              {
+                "properties":{
+                  "paymentMethod":{
+                    "enum":[
+                      "BANK", "CARD", "QRVNPay"
+                    ]
+                  },
+                  "ref":{
+                    "$ref": "#/definitions/nonEmptyString"
+                  }
+                }
+              },
+              {
+                "properties":{
+                  "paymentMethod":{
+                    "not":{
+                      "enum":[
+                        "BANK", "CARD", "QRVNPay"
+                      ]
+                    }
+                  },
+                  "ref":{
+                    "type": ["string", "null"]
+                  }
+                }
+              }
+            ],
+            "err_msg": "payments.paymentMethod = BANK|CARD|QRVNPay, payments.ref != null|empty"
+          }
+        ]
+      }
+    },
+    "customer":{
+      "type": "object",
+      "properties":{
+        "id":{
+          "type":["integer", "null"]
+        },
+        "name":{
+          "type":["string", "null"]
+        },
+        "phone":{
+          "type":["string", "null"]
+        },
+        "address":{
+          "type":["string", "null"]
+        }
+      }
+    }
+  }
+}

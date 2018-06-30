@@ -1,0 +1,851 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "maxProperties": 3,
+  "minProperties": 3,
+  "required": [
+    "BL",
+    "transport",
+    "operator"
+  ],
+  "properties": {
+    "BL": {
+      "type": "object",
+      "maxProperties": 14,
+      "minProperties": 14,
+      "required": [
+        "id",
+        "requestType",
+        "requestId",
+        "state",
+        "from",
+        "to",
+        "cod",
+        "saleOrderGrandTotal",
+        "blGrandTotal",
+        "totalDiscount",
+        "note",
+        "createdAt",
+        "orderId",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/nonEmptyInteger"
+        },
+        "requestType": {
+          "$ref": "#/definitions/nonEmptyString",
+          "enum": [
+            "ASIA_ORDER",
+            "SALE_ORDER"
+          ]
+        },
+        "requestId": {
+          "$ref": "#/definitions/nonEmptyString",
+          "not": {
+            "enum": [
+              "0"
+            ]
+          }
+        },
+        "state": {
+          "$ref": "#/definitions/nonEmptyString",
+          "enum": [
+            "returning"
+          ]
+        },
+        "from": {
+          "type": "object",
+          "maxProperties": 8,
+          "minProperties": 8,
+          "required": [
+            "id",
+            "type",
+            "name",
+            "phone",
+            "fullAddress",
+            "addressCode",
+            "contactName",
+            "storeCode"
+          ],
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "hub"
+                      ]
+                    },
+                    "contactName": {
+                      "$ref": "#/definitions/nonEmptyString"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "customer",
+                        "ktv"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "err_msg": "bl.from.type = 'hub', bl.from.contactName != null and bl.from.contactName isn't empty"
+            }
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nonEmptyInteger"
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "hub"
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "phone": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^((0|\\+84|84)[1-9]\\d{8,9})(\\,\\s?(0|\\+84|84)[1-9]\\d{8,9})*$"
+            },
+            "fullAddress": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "addressCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^[0-9]+$",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            },
+            "contactName": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "err_msg": "bl.from.contactName is string or null"
+                }
+              ]
+            },
+            "storeCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            }
+          }
+        },
+        "to": {
+          "type": "object",
+          "maxProperties": 7,
+          "minProperties": 7,
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "hub"
+                      ]
+                    },
+                    "contactName": {
+                      "$ref": "#/definitions/nonEmptyString"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "customer",
+                        "ktv"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "err_msg": "bl.to.type = 'hub', bl.to.contactName != null and bl.to.contactName isn't empty"
+            },
+            {
+              "addressDiff": {
+                "items_1": {
+                  "$data": "/BL/from"
+                },
+                "items_2": {
+                  "$data": "/BL/to"
+                },
+                "compareType": "in"
+              },
+              "err_msg": "BL.to != BL.from"
+            }
+          ],
+          "required": [
+            "id",
+            "type",
+            "name",
+            "phone",
+            "fullAddress",
+            "addressCode",
+            "contactName"
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nonEmptyInteger"
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "customer"
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "phone": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "err_msg": "Bl.to.phone is null or string"
+                }
+              ]
+            },
+            "fullAddress": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "addressCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^[0-9]+$",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            },
+            "contactName": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "err_msg": "bl.to.contactName is string or null"
+                }
+              ]
+            }
+          }
+        },
+        "cod": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": {
+            "$data": "/BL/blGrandTotal"
+          }
+        },
+        "saleOrderGrandTotal": {
+          "$ref": "#/definitions/nonEmptyInteger"
+        },
+        "blGrandTotal": {
+          "$ref": "#/definitions/nonEmptyInteger",
+          "maximum": {
+            "$data": "/BL/saleOrderGrandTotal"
+          },
+          "allOf": [
+            {
+              "calculateAndCompare": {
+                "operation": [
+                  {
+                    "$totalItemsPrice": "/BL/items"
+                  },
+                  "-",
+                  {
+                    "$data": "/BL/totalDiscount"
+                  }
+                ]
+              },
+              "err_msg": "blGrandTotal == sum(bl.items.price*Bl.items.quantity) - bl.totalDiscount"
+            }
+          ]
+        },
+        "totalDiscount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": {
+            "$totalItemsPrice": "/BL/items"
+          }
+        },
+        "note": {
+          "type": "string"
+        },
+        "createdAt": {
+          "$ref": "#/definitions/nonEmptyNumber",
+          "maximum": "$CURRENT_TIMESTAMPS"
+        },
+        "orderId": {
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "err_msg": "Bl.orderId is null or integer"
+            }
+          ]
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 4,
+            "required": [
+              "sku",
+              "price",
+              "quantity",
+              "name"
+            ],
+            "properties": {
+              "sku": {
+                "$ref": "#/definitions/nonEmptyString"
+              },
+              "price": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "quantity": {
+                "$ref": "#/definitions/nonEmptyInteger"
+              },
+              "name": {
+                "$ref": "#/definitions/nonEmptyString"
+              }
+            }
+          },
+          "allOf": [
+            {
+              "compareItems": {
+                "operator": "=",
+                "items_1": {
+                  "$data": "/BL/items"
+                },
+                "items_2": {
+                  "$data": "/transport/items"
+                },
+                "fields": [
+                  "sku",
+                  "price",
+                  "quantity",
+                  "name"
+                ]
+              },
+              "err_msg": "bl.items#transport.items"
+            }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "properties": {
+                "requestType": {
+                  "enum": [
+                    "SALE_ORDER"
+                  ]
+                },
+                "orderId": {
+                  "$ref": "#/definitions/nonEmptyInteger"
+                }
+              }
+            },
+            {
+              "properties": {
+                "requestType": {
+                  "enum": [
+                    "ASIA_ORDER"
+                  ]
+                }
+              }
+            }
+          ],
+          "err_msg": "requestType == 'SALE_ORDER' and orderId != null and is integer"
+        }
+      ]
+    },
+    "transport": {
+      "type": "object",
+      "maxProperties": 7,
+      "minProperties": 7,
+      "required": [
+        "id",
+        "state",
+        "startTime",
+        "from",
+        "to",
+        "shipper",
+        "items"
+      ],
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/nonEmptyInteger"
+        },
+        "state": {
+          "$ref": "#/definitions/nonEmptyString",
+          "enum": [
+            "returning"
+          ]
+        },
+        "startTime": {
+          "$ref": "#/definitions/nonEmptyNumber",
+          "maximum": "$CURRENT_TIMESTAMPS",
+          "minimum": {
+            "$data": "/BL/createdAt"
+          }
+        },
+        "from": {
+          "type": "object",
+          "maxProperties": 7,
+          "minProperties": 7,
+          "required": [
+            "id",
+            "type",
+            "name",
+            "phone",
+            "fullAddress",
+            "addressCode",
+            "contactName"
+          ],
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "hub"
+                      ]
+                    },
+                    "contactName": {
+                      "$ref": "#/definitions/nonEmptyString"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "customer",
+                        "ktv"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "err_msg": "transport.from.type = 'hub', transport.from.contactName != null and transport.from.contactName isn't empty"
+            }
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nonEmptyInteger"
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "hub",
+                "ktv"
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "phone": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^((0|\\+84|84)[1-9]\\d{8,9})(\\,\\s?(0|\\+84|84)[1-9]\\d{8,9})*$"
+            },
+            "fullAddress": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "addressCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^[0-9]+$",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            },
+            "contactName": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "err_msg": "transport.from.contactName is string or null"
+                }
+              ]
+            }
+          }
+        },
+        "to": {
+          "type": "object",
+          "maxProperties": 7,
+          "minProperties": 7,
+          "required": [
+            "id",
+            "type",
+            "name",
+            "phone",
+            "fullAddress",
+            "addressCode",
+            "contactName"
+          ],
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "hub"
+                      ]
+                    },
+                    "contactName": {
+                      "$ref": "#/definitions/nonEmptyString"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "customer",
+                        "ktv"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "err_msg": "transport.to.type = 'hub', transport.to.contactName != null and transport.to.contactName isn't empty"
+            },
+            {
+              "addressDiff": {
+                "items_1": {
+                  "$data": "/transport/from"
+                },
+                "items_2": {
+                  "$data": "/transport/to"
+                },
+                "compareType": "in"
+              },
+              "err_msg": "transport.to != transport.from"
+            },
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "ktv",
+                        "hub"
+                      ]
+                    },
+                    "phone": {
+                      "$ref": "#/definitions/nonEmptyString",
+                      "pattern": "^((0|\\+84|84)[1-9]\\d{8,9})(\\,\\s?(0|\\+84|84)[1-9]\\d{8,9})*$"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "customer"
+                      ]
+                    }
+                  }
+                }
+              ],
+              "err_msg": "if transport.to.type = 'hub|ktv', transport.to.phone is correct "
+            }
+          ],
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/nonEmptyInteger"
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "hub",
+                "ktv",
+                "customer"
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "phone": {
+              "type": "string"
+            },
+            "fullAddress": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "addressCode": {
+              "$ref": "#/definitions/nonEmptyString",
+              "pattern": "^[0-9]+$",
+              "not": {
+                "enum": [
+                  "0"
+                ]
+              }
+            },
+            "contactName": {
+              "allOf": [
+                {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ],
+                  "err_msg": "transport.to.contactName is string or null"
+                }
+              ]
+            }
+          }
+        },
+        "shipper": {
+          "type": "object",
+          "maxProperties": 5,
+          "minProperties": 5,
+          "required": [
+            "id",
+            "type",
+            "name",
+            "mobile",
+            "shipmentId"
+          ],
+          "allOf": [
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "KTV"
+                      ]
+                    },
+                    "mobile": {
+                      "$ref": "#/definitions/nonEmptyString",
+                      "pattern": "^((0|\\+84|84)[1-9]\\d{8,9})(\\,\\s?(0|\\+84|84)[1-9]\\d{8,9})*$"
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "not": {
+                        "enum": [
+                          "KTV"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "err_msg": "if shipper.type = 'KTV', shipper.mobile is correct"
+            },
+            {
+              "oneOf": [
+                {
+                  "properties": {
+                    "type": {
+                      "enum": [
+                        "ktv"
+                      ]
+                    },
+                    "id": {
+                      "$ref": "#/definitions/nonEmptyString",
+                      "pattern": "^[0-9]*$",
+                      "not": {
+                        "enum": [
+                          "0"
+                        ]
+                      }
+                    }
+                  }
+                },
+                {
+                  "properties": {
+                    "type": {
+                      "not": {
+                        "enum": [
+                          "ktv"
+                        ]
+                      }
+                    }
+                  }
+                }
+              ],
+              "err_msg": "if shipper.type == 'ktv', shipper.id != null/empty and is integer"
+            }
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "type": {
+              "$ref": "#/definitions/nonEmptyString",
+              "enum": [
+                "KERRY_EXPRESS_MANUAL",
+                "VTPOST_MANUAL",
+                "TAN_SON_NHAT",
+                "NHAT_TIN",
+                "AHAMOVE",
+                "GHTK",
+                "XE_TAI",
+                "XE_KHACH",
+                "KTV",
+                "VTPOST",
+                "VNPOST",
+                "GHN",
+                "VIETSTAR"
+              ]
+            },
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "mobile": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "shipmentId": {
+              "$ref": "#/definitions/nonEmptyString"
+            }
+          }
+        },
+        "items": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "maxProperties": 4,
+            "minProperties": 4,
+            "required": [
+              "sku",
+              "price",
+              "quantity",
+              "name"
+            ],
+            "properties": {
+              "sku": {
+                "$ref": "#/definitions/nonEmptyString"
+              },
+              "price": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "quantity": {
+                "$ref": "#/definitions/nonEmptyInteger"
+              },
+              "name": {
+                "$ref": "#/definitions/nonEmptyString"
+              }
+            }
+          }
+        }
+      }
+    },
+    "operator": {
+      "type": "object",
+      "maxProperties": 5,
+      "minProperties": 5,
+      "required": [
+        "type",
+        "id",
+        "name",
+        "email",
+        "phone"
+      ],
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/nonEmptyString",
+          "enum": [
+            "user"
+          ]
+        },
+        "id": {
+          "$ref": "#/definitions/nonEmptyString",
+          "pattern": "^[1-9][0-9]*$"
+        },
+        "name": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "email": {
+          "$ref": "#/definitions/nonEmptyString"
+        },
+        "phone": {
+          "$ref": "#/definitions/nonEmptyString"
+        }
+      }
+    }
+  }
+}

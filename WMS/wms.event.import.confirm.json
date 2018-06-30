@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "importCode",
+    "inventoryCode",
+    "createdAt",
+    "exportCode",
+    "logisticRequestCode",
+    "orderCode",
+    "userID",
+    "full_return",
+    "items"
+  ],
+  "properties": {
+    "importCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "inventoryCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "createdAt": {
+      "$ref": "#/definitions/nonEmptyNumber",
+      "maximum": "$CURRENT_TIMESTAMPS"
+    },
+    "exportCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "logisticRequestCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "orderCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "userID": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "full_return":{
+      "type": "boolean"
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "sku",
+          "quantity"
+        ],
+        "properties": {
+          "sku": {
+            "$ref": "#/definitions/nonEmptyString"
+          },
+
+          "quantity": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          }
+        }
+      }
+    }
+  }
+}

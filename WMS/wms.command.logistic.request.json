@@ -1,0 +1,294 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "orderId",
+    "orderCode",
+    "requestCode",
+    "inventoryCode",
+    "storeCode",
+    "storeName",
+    "storeAddress",
+    "grandTotal",
+    "paidAmount",
+    "COD",
+    "totalDiscount",
+    "otherAmount",
+    "customerCode",
+    "customerName",
+    "note",
+    "createdAt",
+    "purchaseAt",
+    "shipDate",
+    "addresses",
+    "items"
+  ],
+  "properties": {
+    "orderId": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "orderCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "requestCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "storeCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "inventoryCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "storeName": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "storeAddress": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "grandTotal": {
+      "type": "number",
+      "minimum": 0,
+      "calculateAndCompare": {
+        "operation": [
+          {
+            "$totalItemsPrice": "/items"
+          }
+        ],
+        "err_msg": "grandTotal == sum(rowTotal) = sum(items.price*items.quantity)"
+      }
+    },
+    "paidAmount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum":{
+        "$data":"/grandTotal"
+      }
+    },
+    "COD": {
+      "type": "number",
+      "minimum": 0,
+      "maximum":{
+        "$data":"/grandTotal"
+      },
+      "allOf": [
+        {
+          "calculateAndCompare": {
+            "operation": [
+              {
+                "$data": "/grandTotal"
+              },
+              "-",
+              {
+                "$data": "/paidAmount"
+              },
+              "-",
+              {
+                "$data": "/otherAmount"
+              },
+              "-",
+              {
+                "$data": "/totalDiscount"
+              }
+            ]
+          },
+          "err_msg": "COD # grandTotal - paidAmount - otherAmount - totalDiscount"
+        }
+      ]
+    },
+    "otherAmount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum":{
+        "$data":"/grandTotal"
+      }
+    },
+    "totalDiscount": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": {
+        "$totalItemsPrice": "/items"
+      }
+    },
+    "customerCode": {
+      "type":"integer"
+    },
+    "customerName": {
+      "allOf": [
+        {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/nonEmptyString"
+            }
+          ],
+          "err_msg": "customerName is null or string"
+        }
+      ]
+    },
+    "note": {
+      "type":["string", "null"]
+    },
+    "createdAt": {
+      "$ref": "#/definitions/nonEmptyNumber"
+    },
+    "purchaseAt": {
+      "$ref": "#/definitions/nonEmptyNumber",
+      "minimum": "/createdAt"
+    },
+    "shipDate": {
+      "$ref": "#/definitions/nonEmptyNumber",
+      "minimum": "$CURRENT_TIMESTAMPS"
+    },
+    "addresses": {
+      "type": "object",
+      "required": [
+        "shipping",
+        "billing"
+      ],
+      "properties": {
+        "shipping": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "street": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "addressCode":{
+              "type":["string", "null"]
+            },
+            "email": {
+              "type":["string", "null"]
+            },
+            "telephone": {
+              "$ref": "#/definitions/nonEmptyString"
+            }
+          }
+        },
+        "billing": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "street": {
+              "type":["string", "null"]
+            },
+            "email": {
+              "type":["string", "null"]
+            },
+            "telephone": {
+              "type":["string", "null"]
+            },
+            "company": {
+              "type":["string", "null"]
+            },
+            "MaSoThue": {
+              "type":["string", "null"]
+            }
+          }
+        }
+      }
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "sku",
+          "name",
+          "quantity",
+          "price",
+          "unitPrice",
+          "discountAmount",
+          "rowTotal"
+        ],
+        "properties": {
+          "sku": {
+            "$ref": "#/definitions/nonEmptyString"
+          },
+          "name": {
+            "$ref": "#/definitions/nonEmptyString"
+          },
+          "quantity": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": "/items/unitPrice"
+          },
+          "unitPrice": {
+            "type": "number",
+            "minimum": 0
+          },
+          "discountAmount": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": "/items/unitPrice"
+          },
+          "rowTotal": {
+            "type": "number",
+            "minimum": 0
+          }
+        },
+        "allOf": [
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/unitPrice"
+                },
+                "-",
+                {
+                  "$p_data": "/discountAmount"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/price"
+              },
+              "err_msg": "price != unitPrice-discountAmount"
+            }
+          },
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price"
+                },
+                "*",
+                {
+                  "$p_data": "/quantity"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/rowTotal"
+              },
+              "err_msg": "rowTotal != price*quantity"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

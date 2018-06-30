@@ -1,0 +1,52 @@
+{
+  "orderId": "2906_8",
+  "requestCode": "ASIA2906_8",
+  "storeAddress": "408",
+  "addresses": {
+    "shipping": {
+      "addressCode": "01",
+      "street": "s1",
+      "name": "Tuyết",
+      "email": "c1@example.com",
+      "telephone": "0968934920"
+    },
+    "billing": {
+      "MaSoThue": "01010100006",
+      "company": "",
+      "street": "p1",
+      "name": "c1",
+      "email": "c1@example.com",
+      "telephone": "0968934920"
+    }
+  },
+  "__ts": "2018-06-29 07:58:07.459074",
+  "storeCode": "CP09",
+  "createdAt": 1530242548,
+  "customerCode": 486,
+  "storeName": "Thai Ha",
+  "totalDiscount": 1000000.0,
+  "purchaseAt": 1530242548,
+  "paidAmount": 2000000.0,
+  "salesmanId": 50195,
+  "orderCode": "2906_8",
+  "payments": [],
+  "items": [
+    {
+      "discountAmount": 10,
+      "name": "ten san pham",
+      "price": 1000000,
+      "quantity": 10,
+      "rowTotal": 10000000,
+      "sku": "1704092",
+      "unitPrice": 1000010
+    }
+  ],
+  "otherAmount": 0.0,
+  "shipDate": 1530328948,
+  "channel": 3,
+  "inventoryCode": "0101",
+  "customerName": "Tuyết",
+  "COD": 7000000.0,
+  "grandTotal": 10000000.0,
+  "note": "note"
+}

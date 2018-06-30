@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "maxProperties": 4,
+  "minProperties": 4,
+  "required": [
+    "id",
+    "cancelledAt",
+    "cancellerId",
+    "reason"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "cancelledAt": {
+      "$ref": "#/definitions/nonEmptyNumber",
+      "maximum": "$CURRENT_TIMESTAMPS"
+    },
+    "cancelledId": {
+      "$ref": "#/definitions/nonEmptyInt"
+    },
+    "reason": {
+      "oneOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string"
+        }
+      ]
+    }
+  }
+}
