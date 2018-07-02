@@ -530,7 +530,8 @@
             "minimum": 0
           },
           "unitPrice": {
-            "$ref": "#/definitions/nonEmptyNumber"
+            "type": "number",
+            "minimum": 0
           },
           "discountAmount": {
             "type": "number",

@@ -26,84 +26,93 @@
     "payments"
   ],
   "properties": {
-    "orderId":{
+    "orderId": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "repaidAt":{
+    "repaidAt": {
       "$ref": "#/definitions/nonEmptyNumber",
       "maximum": "$CURRENT_TIMESTAMPS"
     },
-    "refundCode":{
-      "$ref": "#/definitions/nonEmptyString"
+    "refundCode": {
+      "type": "string"
     },
-    "importCode":{
-      "$ref": "#/definitions/nonEmptyString"
+    "importCode": {
+      "type": "string"
     },
-    "exportCode":{
-      "$ref": "#/definitions/nonEmptyString"
+    "exportCode": {
+      "type": "string"
     },
-    "inventoryCode":{
-      "$ref": "#/definitions/nonEmptyString"
+    "inventoryCode": {
+      "type": "string"
     },
-    "opsId":{
+    "opsId": {
       "type": "integer",
       "minimum": 0
     },
-    "payments":{
-      "type":"array",
-      "minItems":1,
-      "items":{
-        "type":"object",
-        "required":[
+    "payments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
           "paymentId",
           "paymentMethod",
           "amount"
         ],
-        "properties":{
-          "paymentId":{
-            "type":"string",
+        "properties": {
+          "paymentId": {
+            "type": "string",
             "minimum": 0
           },
-          "paymentMethod":{
-            "type":"string"
+          "paymentMethod": {
+            "type": "string"
           },
-          "bankAccount":{
-            "type":["string","null"]
+          "bankAccount": {
+            "type": [
+              "string",
+              "null"
+            ]
           },
-          "ref":{
-            "type":["string","null"]
+          "ref": {
+            "type": [
+              "string",
+              "null"
+            ]
           },
-          "amount":{
+          "amount": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0
           }
         },
-        "allOf":[
+        "allOf": [
           {
-            "oneOf":[
+            "oneOf": [
               {
-                "properties":{
-                  "paymentMethod":{
-                    "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "enum": [
                       "BANK"
                     ]
                   },
-                  "bankAccount":{
+                  "bankAccount": {
                     "$ref": "#/definitions/nonEmptyString"
                   }
                 }
               },
               {
-                "properties":{
-                  "paymentMethod":{
-                    "not":{
-                      "enum":[
+                "properties": {
+                  "paymentMethod": {
+                    "not": {
+                      "enum": [
                         "BANK"
                       ]
                     }
                   },
-                  "bankAccount":{
-                    "type": ["string", "null"]
+                  "bankAccount": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 }
               }
@@ -111,30 +120,37 @@
             "err_msg": "payments.paymentMethod = BANK, payments.bankAccount != null|empty"
           },
           {
-            "oneOf":[
+            "oneOf": [
               {
-                "properties":{
-                  "paymentMethod":{
-                    "enum":[
-                      "BANK", "CARD", "QRVNPay"
+                "properties": {
+                  "paymentMethod": {
+                    "enum": [
+                      "BANK",
+                      "CARD",
+                      "QRVNPay"
                     ]
                   },
-                  "ref":{
+                  "ref": {
                     "$ref": "#/definitions/nonEmptyString"
                   }
                 }
               },
               {
-                "properties":{
-                  "paymentMethod":{
-                    "not":{
-                      "enum":[
-                        "BANK", "CARD", "QRVNPay"
+                "properties": {
+                  "paymentMethod": {
+                    "not": {
+                      "enum": [
+                        "BANK",
+                        "CARD",
+                        "QRVNPay"
                       ]
                     }
                   },
-                  "ref":{
-                    "type": ["string", "null"]
+                  "ref": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
                   }
                 }
               }
@@ -144,22 +160,91 @@
         ]
       }
     },
-    "customer":{
+    "customer": {
       "type": "object",
-      "properties":{
-        "id":{
-          "type":["integer", "null"]
+      "properties": {
+        "id": {
+          "type": [
+            "integer",
+            "null"
+          ]
         },
-        "name":{
-          "type":["string", "null"]
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
-        "phone":{
-          "type":["string", "null"]
+        "phone": {
+          "type": [
+            "string",
+            "null"
+          ]
         },
-        "address":{
-          "type":["string", "null"]
+        "address": {
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     }
-  }
+  },
+  "allOf": [
+    {
+      "oneOf": [
+        {
+          "properties":{
+            "refundCode":{
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "importCode":{
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            "exportCode":{
+              "$ref": "#/definitions/nonEmptyString"
+            }
+          }
+        },
+        {
+          "properties":{
+            "refundCode":{
+              "oneOf":[
+                {
+                  "type": "null"
+                },
+                {
+                  "type":"string",
+                  "length": 0
+                }
+              ]
+            },
+            "importCode":{
+              "oneOf":[
+                {
+                  "type": "null"
+                },
+                {
+                  "type":"string",
+                  "length": 0
+                }
+              ]
+            },
+            "exportCode":{
+              "oneOf":[
+                {
+                  "type": "null"
+                },
+                {
+                  "type":"string",
+                  "length": 0
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "err_msg": "Don da xuat refundCode, importCode, exportCode phai khop, don chua xuat data trong"
+    }
+  ]
 }

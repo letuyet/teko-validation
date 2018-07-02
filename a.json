@@ -1,52 +1,92 @@
 {
-  "orderId": "3006_2",
-  "requestCode": "export_3006_2",
-  "storeAddress": "408",
+  "COD": 0,
   "addresses": {
-    "shipping": {
-      "addressCode": "01",
-      "street": "s1",
-      "name": "Tuyết",
+    "billing": {
+      "address": "p1",
+      "billingType": "a",
       "email": "c1@example.com",
+      "name": "Tuyết",
+      "printAfter": 3,
+      "printPretaxPrice": false,
+      "taxCode": "01010100006",
       "telephone": "0968934920"
     },
-    "billing": {
-      "MaSoThue": "01010100006",
-      "company": "",
-      "street": "p1",
-      "name": "c1",
+    "shipping": {
+      "addressCode": "01",
       "email": "c1@example.com",
+      "name": "Tuyết",
+      "street": "s1",
       "telephone": "0968934920"
     }
   },
-  "__ts": "2018-06-29 07:58:07.459074",
-  "storeCode": "CP09",
-  "createdAt": 1530242548,
-  "customerCode": 486,
-  "storeName": "Thai Ha",
-  "totalDiscount": 1000000.0,
-  "purchaseAt": 1530242548,
-  "paidAmount": 0.0,
-  "salesmanId": 50195,
-  "orderCode": "3006_1",
-  "payments": [],
+  "channel": 1,
+  "code": "0207_40",
+  "createdAt": 1529481204,
+  "customer": {
+    "address": "street1, district1",
+    "id": 486,
+    "crmId": 486,
+    "name": "Tuyết",
+    "phone": "0968934920"
+  },
+  "delivery": true,
+  "grandTotal": 20000000,
+  "id": "0207_40",
+  "install": false,
+  "inventoryCode": "0101",
   "items": [
     {
-      "discountAmount": 10,
-      "name": "ten san pham",
+      "discountAmount": 0,
+      "name": "ten san pham 1",
       "price": 1000000,
       "quantity": 10,
       "rowTotal": 10000000,
       "sku": "1704092",
-      "unitPrice": 1000010
+      "unitPrice": 1000000,
+      "vat": 10
+    },
+    {
+      "discountAmount": 0,
+      "name": "ten san pham 2",
+      "price": 1000000,
+      "quantity": 10,
+      "rowTotal": 10000000,
+      "sku": "1704093",
+      "unitPrice": 1000000,
+      "vat": 10
     }
   ],
-  "otherAmount": 0.0,
-  "shipDate": 1540329379,
-  "channel": 3,
-  "inventoryCode": "0101",
-  "customerName": "Tuyết",
-  "COD": 9000000.0,
-  "grandTotal": 10000000.0,
-  "note": "note"
+  "note": "0207_40",
+  "otherAmount": 14000000,
+  "paidAmount": 4000000,
+  "paymentDuration": 2,
+  "payments": [
+    {
+      "amount": 14000000,
+      "bankAccount": "123456",
+      "debtorId": 50125,
+      "opsId": 50125,
+      "paymentId": "post_0207_401",
+      "paymentMethod": "POSTPAID",
+      "ref": "123",
+      "timeTransfer": 1529033932
+    },
+    {
+      "amount": 4000000,
+      "bankAccount": "123456",
+      "debtorId": 50125,
+      "opsId": 50125,
+      "paymentId": "cash_0207_401",
+      "paymentMethod": "CASH",
+      "ref": "123",
+      "timeTransfer": 1529033932
+    }
+  ],
+  "priceTable": 123,
+  "salesmanId": 50195,
+  "shipDate": 1539892400,
+  "storeId": "CP09",
+  "storeName": "Thai Ha",
+  "technicalSupport": false,
+  "totalDiscount": 2000000
 }
