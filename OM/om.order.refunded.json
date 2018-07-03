@@ -17,11 +17,8 @@
   "type": "object",
   "required": [
     "orderId",
-    "repaidAt",
+    "refundedAt",
     "refundCode",
-    "importCode",
-    "exportCode",
-    "inventoryCode",
     "opsId",
     "payments"
   ],
@@ -29,7 +26,7 @@
     "orderId": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "repaidAt": {
+    "refundedAt": {
       "$ref": "#/definitions/nonEmptyNumber",
       "maximum": "$CURRENT_TIMESTAMPS"
     },
@@ -37,13 +34,13 @@
       "type": "string"
     },
     "importCode": {
-      "type": "string"
+      "type": ["null", "string"]
     },
     "exportCode": {
-      "type": "string"
+      "type": ["null", "string"]
     },
     "inventoryCode": {
-      "type": "string"
+      "type": ["null", "string"]
     },
     "opsId": {
       "type": "integer",

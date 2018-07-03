@@ -88,10 +88,14 @@
             "operation": [
               {
                 "$totalItemsPrice": "/items"
+              },
+              "-",
+              {
+                "$data": "/totalDiscount"
               }
             ]
           },
-          "err_msg": "grandTotal !=  sum(items.rowTotal) = sum(items.quantity*items.price)"
+          "err_msg": "grandTotal !=  sum(items.rowTotal)- totalDiscount = sum(items.quantity*items.price) - totalDiscount"
         },
         {
           "calculateAndCompare": {
@@ -106,14 +110,10 @@
               "+",
               {
                 "$data": "/otherAmount"
-              },
-              "+",
-              {
-                "$data": "/totalDiscount"
               }
             ]
           },
-          "err_msg": "grandTotal != paidAmount + COD + otherAmount + totalDiscount"
+          "err_msg": "grandTotal != paidAmount + COD + otherAmount"
         }
       ]
     },
@@ -623,100 +623,6 @@
         }
       ],
       "err_msg": "If channel = Agent|Direct|Telesale, salesmanId != null|empty"
-    },
-    {
-      "oneOf": [
-        {
-          "properties": {
-            "payments": {
-              "properties": {
-                "paymentMethod": {
-                  "enum": [
-                    "COD"
-                  ]
-                }
-              }
-            },
-            "addresses": {
-              "properties": {
-                "shipping": {
-                  "properties": {
-                    "name": {
-                      "$ref": "#/definitions/nonEmptyString"
-                    },
-                    "street": {
-                      "$ref": "#/definitions/nonEmptyString"
-                    },
-                    "addressCode": {
-                      "$ref": "#/definitions/nonEmptyString",
-                      "pattern": "^[0-9]+$"
-                    },
-                    "telephone": {
-                      "$ref": "#/definitions/nonEmptyString",
-                      "pattern": "^[^a-zA-Z]+$"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        {
-          "properties": {
-            "payments": {
-              "properties": {
-                "paymentMethod": {
-                  "not": {
-                    "enum": [
-                      "COD"
-                    ]
-                  }
-                }
-              }
-            },
-            "addresses": {
-              "properties": {
-                "shipping": {
-                  "oneOf": [
-                    {
-                      "properties": {
-                        "name": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "street": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "addressCode": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        },
-                        "telephone": {
-                          "type": [
-                            "string",
-                            "null"
-                          ]
-                        }
-                      }
-                    },
-                    {
-                      "type": "null"
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      ],
-      "err_msg": "if paymentMethod = COD, shipping required, addressCode va telephone chua ki tu khac chu cai"
     },
     {
       "oneOf": [

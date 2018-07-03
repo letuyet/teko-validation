@@ -83,11 +83,7 @@
     },
     "totalDiscount": {
       "type": "number",
-      "minimum": 0,
-      "maximum": {
-        "$data": "/grandTotal"
-      },
-      "exclusiveMaximum": true
+      "minimum": 0
     },
     "previousPaidAmount": {
       "type": "number",
