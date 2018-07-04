@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "definitions": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonEmptyInteger": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "nonEmptyNumber": {
+      "type": "number",
+      "minLength": 1
+    }
+  },
+  "type": "object",
+  "required": [
+    "name",
+    "orderId",
+    "exportCode",
+    "state",
+    "create_by",
+    "create_date",
+    "last_updated_by",
+    "last_updated_on",
+    "id"
+  ],
+  "properties":{
+    "name":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "orderId":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "exportCode":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "state":{
+      "$ref": "#/definitions/nonEmptyString",
+      "pattern": "^([^0-9]*)$"
+    },
+    "create_by":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "create_date":{
+      "$ref": "#/definitions/nonEmptyNumber",
+      "maximum":{
+        "$data":"/last_updated_on"
+      }
+    },
+    "last_updated_by":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "last_updated_on":{
+      "$ref": "#/definitions/nonEmptyNumber",
+      "maximum": "$CURRENT_TIMESTAMPS"
+    },
+    "id":{
+      "$ref": "#/definitions/nonEmptyInteger"
+    }
+  }
+}

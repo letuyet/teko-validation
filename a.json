@@ -1,63 +1,61 @@
 {
-  "orderId": "0307_1",
-  "requestCode": "ex_0307_1",
-  "storeAddress": "408",
-  "addresses": {
-    "shipping": {
-      "addressCode": "01",
-      "street": "s1",
-      "name": "Tuyết",
-      "email": "c1@example.com",
-      "telephone": "0968934920"
-    },
-    "billing": {
-      "MaSoThue": "01010100006",
-      "company": "",
-      "street": "p1",
-      "name": "c1",
-      "email": "c1@example.com",
-      "telephone": "0968934920"
+  "method": "Summarize",
+  "params": {
+    "summary_data": {
+      "summary_code": "abcdef",
+      "ops_id": 50125,
+      "related_ops_id": 222,
+      "store_id": "CP04",
+      "summary_time": "14:02 06/05/2018",
+      "total_cash_amount": 4500000,
+      "total_pmh_number": 6,
+      "total_pmh_amount": 3000000,
+      "total_paid": 0,
+      "diff_cash_amount": 0,
+      "diff_pmh_amount": 0,
+      "note": "Fm toẹt vời",
+      "payments": [
+        {
+          "order_id": "abcd",
+          "payment_id": "111",
+          "payment_method": "VOUCHER",
+          "amount": 3000000
+        },
+        {
+          "order_id": "bcde",
+          "payment_id": "222",
+          "payment_method": "CASH",
+          "amount": 5000000
+        }
+      ],
+      "updated_payments": [
+        {
+          "order_id": "abcd",
+          "payment_id": "333",
+          "payment_method": "CASH",
+          "amount": 1000000
+        },
+        {
+          "order_id": "abcd",
+          "payment_id": "444",
+          "payment_method": "CASH",
+          "amount": 500000
+        }
+      ],
+      "returned_payments": [
+        {
+          "order_id": "bcde",
+          "payment_id": "555",
+          "payment_method": "CASH",
+          "amount": "1000000"
+        },
+        {
+          "order_id": "bcde",
+          "payment_id": "666",
+          "payment_method": "CASH",
+          "amount": 1000000
+        }
+      ]
     }
-  },
-  "__ts": "2018-06-29 07:58:07.459074",
-  "storeCode": "CP09",
-  "createdAt": 1530242548,
-  "customerCode": 486,
-  "storeName": "Thai Ha",
-  "totalDiscount": 0,
-  "purchaseAt": 1530242548,
-  "paidAmount": 4000000,
-  "salesmanId": 50195,
-  "orderCode": "0307_1",
-  "payments": [],
-  "items": [
-    {
-      "discountAmount": 100,
-      "name": "ten san pham 1",
-      "price": 1000000,
-      "quantity": 10,
-      "rowTotal": 10000000,
-      "sku": "1704092",
-      "unitPrice": 1000100,
-      "vat": 10
-    },
-    {
-      "discountAmount": 50,
-      "name": "ten san pham 2",
-      "price": 1000000,
-      "quantity": 10,
-      "rowTotal": 10000000,
-      "sku": "1704093",
-      "unitPrice": 1000050,
-      "vat": 10
-    }
-  ],
-  "otherAmount": 16000000,
-  "shipDate": 1540329379,
-  "channel": 3,
-  "inventoryCode": "0101",
-  "customerName": "Tuyết",
-  "COD": 0,
-  "grandTotal": 20000000,
-  "note": "note"
+  }
 }

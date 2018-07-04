@@ -325,19 +325,15 @@
       "type": "object",
       "required": [
         "id",
-        "crmId",
-        "name",
-        "phone",
-        "address"
+        "name"
       ],
       "properties": {
         "id": {
           "type": "integer",
           "minimum": 0
         },
-        "crmId": {
-          "type": "integer",
-          "minimum": 0
+        "asiaCrmId": {
+          "type": "string"
         },
         "name": {
           "$ref": "#/definitions/nonEmptyString"
@@ -371,35 +367,41 @@
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error shipping.name"
                     },
                     "street": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error shipping.street"
                     },
                     "addressCode": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error shipping.addressCode"
                     },
                     "email": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error shipping.email"
                     },
                     "telephone": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error shipping.telephone"
                     }
                   }
                 }
-              ]
+              ],
+              "err_msg": "Error shipping"
             },
             "billing": {
               "oneOf": [
@@ -413,49 +415,57 @@
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.name"
                     },
                     "email": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.email"
                     },
                     "address": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.address"
                     },
                     "telephone": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.telephone"
                     },
                     "taxCode": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.taxCode"
                     },
                     "billingType": {
                       "type": [
                         "string",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.billingType"
                     },
                     "printAfter": {
                       "type": [
                         "integer",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.printAfter"
                     },
                     "printPretaxPrice": {
                       "type": [
                         "boolean",
                         "null"
-                      ]
+                      ],
+                      "err_msg": "Error billing.printPretaxPrice"
                     }
                   },
                   "allOf": [
@@ -495,7 +505,8 @@
                     }
                   ]
                 }
-              ]
+              ],
+              "err_msg": "Error billing"
             }
           }
         }

@@ -17,168 +17,13 @@
   "type": "object",
   "required": [
     "number",
-    "date_invoice",
-    "pricelist_name",
-    "customer_id",
-    "channel",
-    "salesman_id",
-    "payments",
-    "tra_gop",
-    "paid_amount",
-    "remaining_amount",
-    "invoice_lines",
-    "last_updated_by",
-    "create_date",
-    "last_updated_on",
-    "create_by",
     "inventory_code",
     "store_code",
-    "amount_tax",
-    "amount_untaxed",
-    "total_discount",
-    "amount_total",
-    "ship_date",
-    "tax_lines",
-    "giao_may",
-    "da_in",
-    "is_credit"
+    "invoice_lines"
   ],
   "properties":{
     "number":{
       "$ref": "#/definitions/nonEmptyString"
-    },
-    "date_invoice":{
-      "$ref": "#/definitions/nonEmptyString",
-      "pattern": "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"
-    },
-    "pricelist_name":{
-      "$ref": "#/definitions/nonEmptyString"
-    },
-    "customer_id":{
-      "$ref": "#/definitions/nonEmptyString"
-    },
-    "channel":{
-      "type": "integer",
-      "minimum": 0
-    },
-    "salesman_id":{
-      "$ref": "#/definitions/nonEmptyString"
-    },
-    "payments":{
-      "type": "array",
-      "minItems": 1,
-      "items":{
-        "type": "object",
-        "required":[
-          "amount",
-          "payment_method"
-        ],
-        "properties":{
-          "payment_method":{
-            "$ref": "#/definitions/nonEmptyString"
-          },
-          "amount":{
-            "type": "number",
-            "minimum": 0
-          },
-          "bank_account":{
-            "oneOf":[
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "err_msg": "Error payments.bank_account"
-          },
-          "receipt_no":{
-            "oneOf":[
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "err_msg": "Error payments.receipt_no"
-          },
-          "transfer_credit":{
-            "$ref": "#/definitions/nonEmptyString",
-            "pattern": "^[0-9]+$"
-          }
-        },
-        "allOf":[
-          {
-            "oneOf":[
-              {
-                "properties":{
-                  "payment_method":{
-                    "enum":[
-                      "BANK"
-                    ]
-                  },
-                  "bank_account":{
-                    "$ref": "#/definitions/nonEmptyString",
-                    "pattern": "^[0-9]+$"
-                  }
-                }
-              },
-              {
-                "properties":{
-                  "payment_method":{
-                    "not":{
-                      "enum":[
-                        "BANK"
-                      ]
-                    }
-                  }
-                }
-              }
-            ],
-            "err_msg": "if payment_method = 'BANK', payments.bank_account is required"
-          },
-          {
-            "oneOf":[
-              {
-                "properties":{
-                  "payment_method":{
-                    "enum":[
-                      "BANK", "CARD"
-                    ]
-                  },
-                  "receipt_no":{
-                    "$ref": "#/definitions/nonEmptyString"
-                  }
-                }
-              },
-              {
-                "properties":{
-                  "payment_method":{
-                    "not":{
-                      "enum":[
-                        "BANK", "CARD"
-                      ]
-                    }
-                  }
-                }
-              }
-            ],
-            "err_msg": "if payment_method = 'BANK'|'CARD', payments.receipt_no is required"
-          }
-        ]
-      }
-    },
-    "tra_gop":{
-      "type": "boolean"
-    },
-    "paid_amount":{
-      "type": "number",
-      "minimum": 0
-    },
-    "remaining_amount":{
-      "type": "number",
-      "minimum": 0
     },
     "invoice_lines":{
       "type": "array",
@@ -203,10 +48,12 @@
             "$ref": "#/definitions/nonEmptyString"
           },
           "quantity":{
-            "$ref": "#/definitions/nonEmptyInteger"
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
           },
           "price_unit_init_tax":{
-            "$ref": "#/definitions/nonEmptyInteger"
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
           },
           "price_unit_tax":{
             "$ref": "#/definitions/nonEmptyNumber",
@@ -255,7 +102,8 @@
             ]
           },
           "discount_amount":{
-            "$ref": "#/definitions/nonEmptyInteger"
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
           },
           "price_subtotal":{
             "$ref": "#/definitions/nonEmptyNumber",
@@ -312,121 +160,16 @@
             "pattern": "^\\d*$"
           },
           "tax_amount":{
-            "$ref": "#/definitions/nonEmptyString",
-            "pattern": "^\\d+\\.\\d+$"
+            "$ref": "#/definitions/nonEmptyString"
           }
         }
       }
-    },
-    "last_updated_by":{
-      "$ref": "#/definitions/nonEmptyString"
-    },
-    "create_date":{
-      "$ref": "#/definitions/nonEmptyString",
-      "pattern": "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
-    },
-    "last_updated_on":{
-      "$ref": "#/definitions/nonEmptyString",
-      "pattern": "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
-    },
-    "create_by":{
-      "$ref": "#/definitions/nonEmptyString"
     },
     "inventory_code":{
       "$ref": "#/definitions/nonEmptyString"
     },
     "store_code":{
       "$ref": "#/definitions/nonEmptyString"
-    },
-    "amount_tax":{
-      "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": 0
-    },
-    "amount_untaxed":{
-      "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": 0
-    },
-    "total_discount":{
-      "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": 0
-    },
-    "amount_total":{
-      "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": 0
-    },
-    "ship_date":{
-      "$ref": "#/definitions/nonEmptyString",
-      "pattern": "^\\d\\d\\d\\d-(0?[1-9]|1[0-2])-(0?[1-9]|[12][0-9]|3[01]) (00|[0-9]|1[0-9]|2[0-3]):([0-9]|[0-5][0-9]):([0-9]|[0-5][0-9])$"
-    },
-    "tax_lines":{
-      "type": "array",
-      "minItems": 1,
-      "items":{
-        "type": "object",
-        "required":[
-          "code",
-          "value"
-        ],
-        "properties":{
-          "code":{
-            "$ref": "#/definitions/nonEmptyString",
-            "pattern": "^\\d+$"
-          },
-          "value":{
-            "$ref": "#/definitions/nonEmptyNumber",
-            "minimum": 0
-          }
-        }
-      }
-    },
-    "giao_may":{
-      "type": "boolean"
-    },
-    "da_in":{
-      "type": "boolean"
-    },
-    "is_credit":{
-      "type": "boolean"
-    },
-    "addresses":{
-      "type": "object",
-      "properties":{
-        "shipping":{
-          "type": "object",
-          "properties":{
-            "name":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "address":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "phone":{
-              "$ref": "#/definitions/nonEmptyString"
-            }
-          }
-        },
-        "billing":{
-          "type": "object",
-          "properties":{
-            "name":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "company":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "address":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "phone":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
-            "vat":{
-              "$ref": "#/definitions/nonEmptyString",
-              "pattern": "^\\d+$"
-            }
-          }
-        }
-      }
     }
   }
 }
