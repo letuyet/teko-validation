@@ -20,7 +20,6 @@
     "payId",
     "paidAt",
     "payCode",
-    "exportCode",
     "payerName",
     "paidObject",
     "grandTotal",
@@ -46,7 +45,7 @@
       "$ref": "#/definitions/nonEmptyString"
     },
     "exportCode": {
-      "$ref": "#/definitions/nonEmptyString"
+      "type":["string", "null"]
     },
     "payerName": {
       "$ref": "#/definitions/nonEmptyString"
@@ -234,7 +233,16 @@
                 }
               },
               "exportCode": {
-                "type": ["string", "null"]
+                "oneOf":[
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type":"string",
+                    "length": 0
+                  }
+                ]
+
               }
             }
           }

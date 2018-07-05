@@ -21,6 +21,7 @@
     "createdAt",
     "exportCode",
     "logisticRequestCode",
+    "orderId",
     "orderCode",
     "userID",
     "full_return",
@@ -33,6 +34,9 @@
     "inventoryCode": {
       "$ref": "#/definitions/nonEmptyString"
     },
+    "storeCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
     "createdAt": {
       "$ref": "#/definitions/nonEmptyNumber",
       "maximum": "$CURRENT_TIMESTAMPS"
@@ -41,6 +45,9 @@
       "$ref": "#/definitions/nonEmptyString"
     },
     "logisticRequestCode": {
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "orderId": {
       "$ref": "#/definitions/nonEmptyString"
     },
     "orderCode": {
@@ -59,13 +66,16 @@
         "type": "object",
         "required": [
           "sku",
+          "name",
           "quantity"
         ],
         "properties": {
           "sku": {
             "$ref": "#/definitions/nonEmptyString"
           },
-
+          "name": {
+            "$ref": "#/definitions/nonEmptyString"
+          },
           "quantity": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0,

@@ -17,12 +17,20 @@
   "type": "object",
   "required": [
     "number",
+    "order_code",
+    "name",
     "inventory_code",
     "store_code",
     "invoice_lines"
   ],
   "properties":{
     "number":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "order_code":{
+      "$ref": "#/definitions/nonEmptyString"
+    },
+    "name":{
       "$ref": "#/definitions/nonEmptyString"
     },
     "invoice_lines":{

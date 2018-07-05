@@ -1,64 +1,61 @@
 {
-  key=om_key
-  &
-  secret=om_secret
-  &
-  summary_data={
-  "summary_code": "631fccd7-4ea9-4fcd-ac08-1ad2c165a3ff",
-  "ops_id": 50125,
-  "related_ops_id": 0,
-  "store_id": "CP04",
-  "summary_time": "14:02 06/05/2018",
-  "total_cash_amount": 0,
-  "total_pmh_number": 6,
-  "total_pmh_amount": 3000000,
-  "total_card_amount": 0,
-  "total_paid": 0,
-  "diff_cash_amount": 0,
-  "diff_pmh_amount": 0,
-  "note": "Fm toẹt vời",
-  "payments": [
-    {
-      "order_id": "abcd",
-      "payment_id": "111",
-      "payment_method": "VOUCHER",
-      "amount": 3000000
-    },
-    {
-      "order_id": "bcde",
-      "payment_id": "222",
-      "payment_method": "CASH",
-      "amount": 5000000
+  "method": "Summarize",
+  "params": {
+    "summary_data": {
+      "summary_code": "abcdef",
+      "ops_id": 50125,
+      "related_ops_id": 222,
+      "store_id": "CP04",
+      "summary_time": "14:02 06/05/2018",
+      "total_cash_amount": 4500000,
+      "total_pmh_number": 6,
+      "total_pmh_amount": 3000000,
+      "total_paid": 0,
+      "diff_cash_amount": 0,
+      "diff_pmh_amount": 0,
+      "note": "Fm toẹt vời",
+      "payments": [
+        {
+          "order_id": "abcd",
+          "payment_id": "111",
+          "payment_method": "VOUCHER",
+          "amount": 0
+        },
+        {
+          "order_id": "bcde",
+          "payment_id": "222",
+          "payment_method": "CASH",
+          "amount": 5000000
+        }
+      ],
+      "updated_payments": [
+        {
+          "order_id": "abcd",
+          "payment_id": "333",
+          "payment_method": "CASH",
+          "amount": 1000000
+        },
+        {
+          "order_id": "abcd",
+          "payment_id": "444",
+          "payment_method": "CASH",
+          "amount": 500000
+        }
+      ],
+      "returned_payments": [
+        {
+          "order_id": "bcde",
+          "payment_id": "555",
+          "payment_method": "CASH",
+          "amount": 1000000
+        },
+        {
+          "order_id": "bcde",
+          "payment_id": "666",
+          "payment_method": "CASH",
+          "amount": 1000000
+        }
+      ]
     }
-  ],
-  "updated_payments": [
-    {
-      "order_id": "abcd",
-      "payment_id": "333",
-      "payment_method": "CASH",
-      "amount": 1000000
-    },
-    {
-      "order_id": "abcd",
-      "payment_id": "444",
-      "payment_method": "CASH",
-      "amount": 500000
-    }
-  ],
-  "returned_payments": [
-    {
-      "order_id": "bcde",
-      "payment_id": "555",
-      "payment_method": "CASH",
-      "amount": 1000000
-    },
-    {
-      "order_id": "bcde",
-      "payment_id": "666",
-      "payment_method": "CASH",
-      "amount": 1000000
-    }
-  ]
-},
-service_name=om&sign=3ee515091b54f084d55ac33ae844f42b
-ts=2018-07-04T07: 36: 30.014539393Z caller=server.go: 121 err="NOT_OK: {\"summary_code\": \"631fccd7-4ea9-4fcd-ac08-1ad2c165a3ff\", \"total_pmh_number\": 6, \"note\": \"Fm to\\u1eb9t v\\u1eddi\", \"store_id\": \"CP04\", \"diff_pmh_amount\": 0, \"related_ops_id\": 0, \"summary_time\": \"14:02 06/05/2018\", \"ops_id\": 50125, \"total_pmh_amount\": 3000000, \"returned_payments\": [{\"order_id\": \"bcde\", \"payment_id\": \"555\", \"amount\": 1000000, \"payment_method\": \"CASH\"}, {\"order_id\": \"bcde\", \"payment_id\": \"666\", \"amount\": 1000000, \"payment_method\": \"CASH\"}], \"payments\": [{\"order_id\": \"abcd\", \"payment_id\": \"111\", \"amount\": 3000000, \"payment_method\": \"VOUCHER\"}, {\"order_id\": \"bcde\", \"payment_id\": \"222\", \"amount\": 5000000, \"payment_method\": \"CASH\"}], \"diff_cash_amount\": 0, \"total_paid\": 0, \"total_card_amount\": 0, \"updated_payments\": [{\"order_id\": \"abcd\", \"payment_id\": \"333\", \"amount\": 1000000, \"payment_method\": \"CASH\"}, {\"order_id\": \"abcd\", \"payment_id\": \"444\", \"amount\": 500000, \"payment_method\": \"CASH\"}], \"total_cash_amount\": 0}
+  }
+}

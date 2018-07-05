@@ -25,13 +25,15 @@
   "properties": {
     "BL": {
       "type": "object",
-      "maxProperties": 16,
-      "minProperties": 16,
+      "maxProperties": 17,
+      "minProperties": 17,
       "required": [
         "id",
         "requestType",
         "requestId",
         "state",
+
+        "exportSource",
         "from",
         "to",
         "cod",
@@ -68,6 +70,13 @@
           "$ref": "#/definitions/nonEmptyString",
           "enum": [
             "partial_delivered"
+          ]
+        },
+        "exportSource": {
+          "$ref": "#/definitions/nonEmptyString",
+          "enum": [
+            "ASIA",
+            "WMS"
           ]
         },
         "from": {
