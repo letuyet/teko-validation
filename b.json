@@ -1,61 +1,34 @@
 {
-  "method": "Summarize",
-  "params": {
-    "summary_data": {
-      "summary_code": "abcdef",
-      "ops_id": 50125,
-      "related_ops_id": 222,
-      "store_id": "CP04",
-      "summary_time": "14:02 06/05/2018",
-      "total_cash_amount": 4500000,
-      "total_pmh_number": 6,
-      "total_pmh_amount": 3000000,
+      "summary_code": "test2618_1",
+      "ops_id": 20720,
+      "related_ops_id": 50125,
+      "store_id": "CP09",
+      "summary_time": "14:02 20/06/2018",
+      "total_cash_amount": 0,
+      "total_pmh_number": 0,
+      "total_pmh_amount": 0,
       "total_paid": 0,
-      "diff_cash_amount": 0,
-      "diff_pmh_amount": 0,
+      "diff_cash_amount": 1000000,
+      "diff_pmh_amount":800000,
       "note": "Fm toẹt vời",
       "payments": [
-        {
-          "order_id": "abcd",
-          "payment_id": "111",
+         {
+          "order_id": "4392f0fa-b2ee-473c-bb76-5a036fd37438",
+          "payment_id": "cc44bdec-8d36-44b0-a99d-402cd08f9219",
           "payment_method": "VOUCHER",
-          "amount": 0
+          "amount": 800000
         },
         {
-          "order_id": "bcde",
-          "payment_id": "222",
+          "order_id": "4392f0fa-b2ee-473c-bb76-5a036fd37438",
+          "payment_id": "	fd484e6a-6b86-4282-b966-8e100ee0f218",
           "payment_method": "CASH",
-          "amount": 5000000
+          "amount": 1000000
         }
       ],
       "updated_payments": [
-        {
-          "order_id": "abcd",
-          "payment_id": "333",
-          "payment_method": "CASH",
-          "amount": 1000000
-        },
-        {
-          "order_id": "abcd",
-          "payment_id": "444",
-          "payment_method": "CASH",
-          "amount": 500000
-        }
+
       ],
       "returned_payments": [
-        {
-          "order_id": "bcde",
-          "payment_id": "555",
-          "payment_method": "CASH",
-          "amount": 1000000
-        },
-        {
-          "order_id": "bcde",
-          "payment_id": "666",
-          "payment_method": "CASH",
-          "amount": 1000000
-        }
+
       ]
     }
-  }
-}

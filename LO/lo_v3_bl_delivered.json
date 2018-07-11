@@ -486,20 +486,18 @@
           "maximum": "$CURRENT_TIMESTAMPS"
         },
         "orderId": {
-          "allOf": [
+          "oneOf": [
             {
-              "oneOf": [
-                {
-                  "type": "integer",
-                  "minimum": 0
-                },
-                {
-                  "type": "null"
-                }
-              ],
-              "err_msg": "Bl.orderId is null or integer"
+              "$ref": "#/definitions/nonEmptyInteger"
+            },
+            {
+              "$ref": "#/definitions/nonEmptyString"
+            },
+            {
+              "type": "null"
             }
-          ]
+          ],
+          "err_msg": "orderId is string or integer or null"
         },
         "items": {
           "type": "array",

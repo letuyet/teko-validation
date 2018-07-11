@@ -192,9 +192,6 @@
       "oneOf": [
         {
           "properties":{
-            "refundCode":{
-              "$ref": "#/definitions/nonEmptyString"
-            },
             "importCode":{
               "$ref": "#/definitions/nonEmptyString"
             },
@@ -205,43 +202,20 @@
         },
         {
           "properties":{
-            "refundCode":{
-              "oneOf":[
-                {
-                  "type": "null"
-                },
-                {
-                  "type":"string",
-                  "length": 0
-                }
-              ]
-            },
             "importCode":{
-              "oneOf":[
-                {
-                  "type": "null"
-                },
-                {
-                  "type":"string",
-                  "length": 0
-                }
+              "enum":[
+                ""
               ]
             },
             "exportCode":{
-              "oneOf":[
-                {
-                  "type": "null"
-                },
-                {
-                  "type":"string",
-                  "length": 0
-                }
+              "enum":[
+                ""
               ]
             }
           }
         }
       ],
-      "err_msg": "Don da xuat refundCode, importCode, exportCode phai khop, don chua xuat data trong"
+      "err_msg": "Don da xuat importCode, exportCode phai khop, don chua xuat data trong"
     }
   ]
 }

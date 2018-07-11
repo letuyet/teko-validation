@@ -497,8 +497,7 @@
                               "$ref": "#/definitions/nonEmptyString"
                             },
                             "taxCode": {
-                              "$ref": "#/definitions/nonEmptyString",
-                              "pattern": "^[0-9]+$"
+                              "$ref": "#/definitions/nonEmptyString"
                             },
                             "billingType": {
                               "$ref": "#/definitions/nonEmptyString"
@@ -508,14 +507,18 @@
                         {
                           "properties": {
                             "name": {
-                              "oneOf": [
-                                {
-                                  "type": "null"
-                                },
-                                {
-                                  "type": "string",
-                                  "length": 0
-                                }
+                              "enum": [
+                                ""
+                              ]
+                            },
+                            "address": {
+                              "enum": [
+                                ""
+                              ]
+                            },
+                            "taxCode": {
+                              "enum": [
+                                ""
                               ]
                             }
                           }
@@ -530,7 +533,8 @@
             }
           }
         }
-      ]
+      ],
+      "err_msg": "Error addresses"
     },
     "items": {
       "type": "array",
