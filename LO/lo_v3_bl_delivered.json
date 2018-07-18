@@ -488,10 +488,10 @@
         "orderId": {
           "oneOf": [
             {
-              "$ref": "#/definitions/nonEmptyInteger"
+              "type": "integer"
             },
             {
-              "$ref": "#/definitions/nonEmptyString"
+              "type": "string"
             },
             {
               "type": "null"
@@ -561,7 +561,16 @@
                   ]
                 },
                 "orderId": {
-                  "$ref": "#/definitions/nonEmptyInteger"
+                  "oneOf":[
+                    {
+                      "$ref": "#/definitions/nonEmptyInteger"
+                    },
+                    {
+                      "$ref": "#/definitions/nonEmptyString",
+                      "pattern": "^[0-9]+$"
+                    }
+                  ]
+
                 }
               }
             },

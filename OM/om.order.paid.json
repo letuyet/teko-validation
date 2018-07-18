@@ -60,9 +60,14 @@
       ]
     },
     "objectCode":{
-      "type": [
-        "string",
-        "null"
+      "oneOf":[
+        {
+          "type":"null"
+        },
+        {
+          "type": "integer",
+          "minimum": 0
+        }
       ]
     },
     "objectPhone":{

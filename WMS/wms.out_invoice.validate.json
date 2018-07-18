@@ -25,7 +25,9 @@
   ],
   "properties":{
     "number":{
-      "$ref": "#/definitions/nonEmptyString"
+      "$ref": "#/definitions/nonEmptyString",
+      "minLength": 8,
+      "maxLength": 8
     },
     "order_code":{
       "$ref": "#/definitions/nonEmptyString"

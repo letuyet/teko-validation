@@ -162,7 +162,9 @@
     },
     "shipDate": {
       "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": "$CURRENT_TIMESTAMPS"
+      "minimum": {
+        "$data":"/createdAt"
+      }
     },
     "install": {
       "oneOf": [

@@ -331,20 +331,18 @@
           "maximum": "$CURRENT_TIMESTAMPS"
         },
         "orderId": {
-          "orderId": {
-            "oneOf": [
-              {
-                "$ref": "#/definitions/nonEmptyInteger"
-              },
-              {
-                "$ref": "#/definitions/nonEmptyString"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "err_msg": "orderId is string or integer or null"
-          }
+          "oneOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "err_msg": "orderId is string or integer or null"
         },
         "items": {
           "type": "array",
@@ -408,7 +406,16 @@
                   ]
                 },
                 "orderId": {
-                  "$ref": "#/definitions/nonEmptyInteger"
+                  "oneOf":[
+                    {
+                      "$ref": "#/definitions/nonEmptyInteger"
+                    },
+                    {
+                      "$ref": "#/definitions/nonEmptyString",
+                      "pattern": "^[0-9]+$"
+                    }
+                  ]
+
                 }
               }
             },

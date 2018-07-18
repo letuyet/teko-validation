@@ -124,7 +124,7 @@
       }
     },
     "customerCode": {
-      "type":"integer"
+      "type":"string"
     },
     "customerName": {
       "allOf": [
@@ -186,7 +186,7 @@
           "type": "object",
           "properties": {
             "name": {
-              "$ref": "#/definitions/nonEmptyString"
+              "type":["string", "null"]
             },
             "street": {
               "type":["string", "null"]
