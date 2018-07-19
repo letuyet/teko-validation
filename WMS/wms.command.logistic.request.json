@@ -153,7 +153,7 @@
     },
     "shipDate": {
       "$ref": "#/definitions/nonEmptyNumber",
-      "minimum": "$CURRENT_TIMESTAMPS"
+      "minimum": "/createdAt"
     },
     "addresses": {
       "type": "object",
@@ -172,7 +172,7 @@
               "$ref": "#/definitions/nonEmptyString"
             },
             "addressCode":{
-              "type":["string", "null"]
+              "type":["string"]
             },
             "email": {
               "type":["string", "null"]
