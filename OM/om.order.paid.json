@@ -144,71 +144,7 @@
             "type": "integer",
             "minimum": 0
           }
-        },
-        "allOf": [
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "enum": [
-                      "CARD"
-                    ]
-                  },
-                  "bankAccount": {
-                    "$ref": "#/definitions/nonEmptyString"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "not": {
-                      "enum": [
-                        "CARD"
-                      ]
-                    }
-                  },
-                  "bankAccount": {
-                    "type": ["string", "null"]
-                  }
-                }
-              }
-            ],
-            "err_msg": "payments.paymentMethod = CARD, payments.bankAccount != null|empty"
-          },
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "enum": [
-                      "CARD"
-                    ]
-                  },
-                  "ref": {
-                    "$ref": "#/definitions/nonEmptyString"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "not": {
-                      "enum": [
-                        "CARD"
-                      ]
-                    }
-                  },
-                  "ref": {
-                    "type": ["string", "null"]
-                  }
-                }
-              }
-            ],
-            "err_msg": "payments.paymentMethod = CARD, payments.ref != null|empty"
-          }
-        ]
+        }
       }
     },
     "allOf": [

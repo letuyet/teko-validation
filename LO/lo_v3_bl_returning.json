@@ -52,7 +52,10 @@
           "$ref": "#/definitions/nonEmptyString",
           "enum": [
             "ASIA_ORDER",
-            "SALE_ORDER"
+            "POS_ORDER",
+            "ONLINE_ORDER",
+            "TLS_ORDER",
+            "AGENT_ORDER"
           ]
         },
         "requestId": {
@@ -331,18 +334,7 @@
           "maximum": "$CURRENT_TIMESTAMPS"
         },
         "orderId": {
-          "oneOf": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "string"
-            },
-            {
-              "type": "null"
-            }
-          ],
-          "err_msg": "orderId is string or integer or null"
+          "type": "string"
         },
         "items": {
           "type": "array",
@@ -402,20 +394,13 @@
               "properties": {
                 "requestType": {
                   "enum": [
-                    "SALE_ORDER"
+                    "ASIA_ORDER"
                   ]
                 },
                 "orderId": {
-                  "oneOf":[
-                    {
-                      "$ref": "#/definitions/nonEmptyInteger"
-                    },
-                    {
-                      "$ref": "#/definitions/nonEmptyString",
-                      "pattern": "^[0-9]+$"
-                    }
+                  "enum":[
+                    ""
                   ]
-
                 }
               }
             },
@@ -423,13 +408,32 @@
               "properties": {
                 "requestType": {
                   "enum": [
-                    "ASIA_ORDER"
+                    "POS_ORDER"
                   ]
+                },
+                "orderId": {
+                  "$ref": "#/definitions/nonEmptyString",
+                  "pattern": "^[a-zA-Z0-9]+$"
+                }
+              }
+            },
+            {
+              "properties": {
+                "requestType": {
+                  "enum": [
+                    "ONLINE_ORDER",
+                    "TLS_ORDER",
+                    "AGENT_ORDER"
+                  ]
+                },
+                "orderId": {
+                  "$ref": "#/definitions/nonEmptyString",
+                  "pattern": "^[0-9]+$"
                 }
               }
             }
           ],
-          "err_msg": "requestType == 'SALE_ORDER' and orderId != null and is integer"
+          "err_msg": "requestType = 'ASIA_ORDER', orderId = '', requestType = 'POS_ORDER', orderId chua chu va so, con lai orderId chi chưa so"
         }
       ]
     },

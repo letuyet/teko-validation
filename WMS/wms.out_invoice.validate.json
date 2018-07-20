@@ -23,24 +23,24 @@
     "store_code",
     "invoice_lines"
   ],
-  "properties":{
-    "number":{
+  "properties": {
+    "number": {
       "$ref": "#/definitions/nonEmptyString",
       "minLength": 8,
       "maxLength": 8
     },
-    "order_code":{
+    "order_code": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "name":{
+    "name": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "invoice_lines":{
+    "invoice_lines": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "required":[
+        "required": [
           "sku",
           "quantity",
           "price_unit_init_tax",
@@ -53,132 +53,138 @@
           "tax_code",
           "tax_amount"
         ],
-        "properties":{
-          "sku":{
+        "properties": {
+          "sku": {
             "$ref": "#/definitions/nonEmptyString"
           },
-          "quantity":{
+          "quantity": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0
           },
-          "price_unit_init_tax":{
+          "price_unit_init_tax": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0
           },
-          "price_unit_tax":{
-            "$ref": "#/definitions/nonEmptyNumber",
-            "minimum": 0,
-            "allOf": [
-              {
-                "calculateAndCompare": {
-                  "operation": [
-                    {
-                      "$p_data": "/price_unit_init_tax "
-                    },
-                    "-",
-                    {
-                      "$p_data": "/discount_amount"
-                    }
-                  ]
-                },
-                "err_msg": "invoice_lines.price_unit_tax != price_unit_init_tax - discount_amount"
-              }
-            ]
-          },
-          "price_unit":{
-            "$ref": "#/definitions/nonEmptyNumber",
-            "minimum": 0,
-            "allOf": [
-              {
-                "calculateAndCompare": {
-                  "operation": [
-                    {
-                      "$p_data": "/price_unit_tax  "
-                    },
-                    "/",
-                    "(",
-                    {
-                      "$p_data": "/discount_amount"
-                    },
-                    "/",
-                    "100",
-                    "+",
-                    "1",
-                    ")"
-                  ]
-                },
-                "err_msg": "invoice_lines.price_unit != price_unit_tax / (discount_amount/100 + 1)"
-              }
-            ]
-          },
-          "discount_amount":{
+          "price_unit_tax": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0
           },
-          "price_subtotal":{
-            "$ref": "#/definitions/nonEmptyNumber",
-            "minimum": 0,
-            "allOf": [
-              {
-                "calculateAndCompare": {
-                  "operation": [
-                    {
-                      "$p_data": "/price_total"
-                    },
-                    "/",
-                    "(",
-                    {
-                      "$p_data": "/discount_amount"
-                    },
-                    "/",
-                    "100",
-                    "+",
-                    "1",
-                    ")"
-                  ]
-                },
-                "err_msg": "invoice_lines.price_subtotal != price_total / (discount_amount/100 + 1)"
-              }
-            ]
-          },
-          "price_total":{
-            "$ref": "#/definitions/nonEmptyNumber",
-            "minimum": 0,
-            "allOf": [
-              {
-                "calculateAndCompare": {
-                  "operation": [
-                    {
-                      "$p_data": "/price_unit_tax"
-                    },
-                    "*",
-                    {
-                      "$p_data": "/quantity"
-                    }
-                  ]
-                },
-                "err_msg": "invoice_lines.price_total != price_unit_tax * quantity"
-              }
-            ]
-          },
-          "price_tax":{
+          "price_unit": {
             "$ref": "#/definitions/nonEmptyNumber",
             "minimum": 0
           },
-          "tax_code":{
+          "discount_amount": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
+          },
+          "price_subtotal": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
+          },
+          "price_total": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
+          },
+          "price_tax": {
+            "$ref": "#/definitions/nonEmptyNumber",
+            "minimum": 0
+          },
+          "tax_code": {
             "$ref": "#/definitions/nonEmptyString",
             "pattern": "^\\d*$"
           },
-          "tax_amount":{
+          "tax_amount": {
             "$ref": "#/definitions/nonEmptyString"
           }
-        }
+        },
+        "allOf": [
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price_unit_init_tax "
+                },
+                "-",
+                {
+                  "$p_data": "/discount_amount"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/price_unit_tax"
+              }
+            },
+            "err_msg": "invoice_lines.price_unit_tax != price_unit_init_tax - discount_amount"
+          },
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price_unit_tax  "
+                },
+                "/",
+                "(",
+                {
+                  "$p_data": "/discount_amount"
+                },
+                "/",
+                "100",
+                "+",
+                "1",
+                ")"
+              ],
+              "compareValue": {
+                "$p_data": "/price_unit"
+              }
+            },
+            "err_msg": "invoice_lines.price_unit != price_unit_tax / (discount_amount/100 + 1)"
+          },
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price_total"
+                },
+                "/",
+                "(",
+                {
+                  "$p_data": "/discount_amount"
+                },
+                "/",
+                "100",
+                "+",
+                "1",
+                ")"
+              ],
+              "compareValue": {
+                "$p_data": "/price_subtotal"
+              }
+            },
+            "err_msg": "invoice_lines.price_subtotal != price_total / (discount_amount/100 + 1)"
+          },
+          {
+            "calculateAndCompare": {
+              "operation": [
+                {
+                  "$p_data": "/price_unit_tax"
+                },
+                "*",
+                {
+                  "$p_data": "/quantity"
+                }
+              ],
+              "compareValue": {
+                "$p_data": "/price_total"
+              }
+            },
+            "err_msg": "invoice_lines.price_total != price_unit_tax * quantity"
+          }
+        ]
       }
     },
-    "inventory_code":{
+    "inventory_code": {
       "$ref": "#/definitions/nonEmptyString"
     },
-    "store_code":{
+    "store_code": {
       "$ref": "#/definitions/nonEmptyString"
     }
   }

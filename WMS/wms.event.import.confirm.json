@@ -66,7 +66,6 @@
         "type": "object",
         "required": [
           "sku",
-          "name",
           "quantity"
         ],
         "properties": {

@@ -271,65 +271,7 @@
             ],
             "err_msg": "debtorId"
           }
-        },
-        "allOf": [
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "enum": [
-                      "CARD"
-                    ]
-                  },
-                  "ref": {
-                    "$ref": "#/definitions/nonEmptyString"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "not": {
-                      "enum": [
-                        "CARD"
-                      ]
-                    }
-                  }
-                }
-              }
-            ],
-            "err_msg": "payments.paymentMethod = CARD, payments.ref != null|empty"
-          },
-          {
-            "oneOf": [
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "enum": [
-                      "DEBT"
-                    ]
-                  },
-                  "debtorId": {
-                    "$ref": "#/definitions/nonEmptyInteger"
-                  }
-                }
-              },
-              {
-                "properties": {
-                  "paymentMethod": {
-                    "not": {
-                      "enum": [
-                        "DEBT"
-                      ]
-                    }
-                  }
-                }
-              }
-            ],
-            "err_msg": "payments.paymentMethod = DEBT, payments.debtorId != null|empty"
-          }
-        ]
+        }
       }
     },
     "customer": {

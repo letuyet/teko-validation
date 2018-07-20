@@ -1,41 +1,12 @@
 {
-  "orderId": 11077,
-  "from": {
-    "storeCode": "CP09",
-    "name": "CN9 C\\xf4ng Ty CP TM DV  Phong V\\u0169",
-    "type": "hub",
-    "fullAddress": "444 Ho\\xe0ng Hoa Th\\xe1m,  qu\\u1eadnT\\xe2y H\\u1ed3, H\\xe0 N\\u1ed9i",
-    "phone": "0988345678",
-    "contactName": "Kh\\xf4ng bi\\u1ebft t\\xean ai",
-    "addressCode": "010308",
-    "id": 349
-  },
-  "exportSource": "WMS",
-  "requestType": "ASIA_ORDER",
-  "items": [
-    {
-      "sk": "1603414",
-      "price": 1311000,
-      "name": "B\\u1ed9 chuy\\u1ec3n h\\u1ec7/ TV Box Android Xiaomi mini MDZ-15AA",
-      "quantity": 1
-    }
-  ],
-  "totalDiscount": 0,
-  "note": "B\\xe1n theo ID 79333, m\\xe3 2300000698",
-  "to": {
-    "name": "Linh",
-    "type": "customer",
-    "fullAddress": "444 Hoang Hoa Tham, Huy\\u1ec7n Gia L\\xe2m, H\\xe0 N\\u1ed9i, X\\u0103 Y\\xean Vi\\xean, Th\\xe0nh ph\\u1ed1 H\\xe0 N\\u1ed9i, Huy\\u1ec7n Gia L\\xe2m",
-    "phone": "0949491286",
-    "contactName": "Linh",
-    "addressCode": "011203",
-    "id": 1949
-  },
-  "state": "delivering",
-  "requestId": "ASIA1107_2",
-  "blGrandTotal": 1311000,
-  "saleOrderGrandTotal": 1311000,
-  "id": 100784,
-  "createdAt": 1531277777,
-  "cod": 0
+  "last_updated_on": 1532073513,
+  "id": 147111,
+  "exportCode": "CP09/PICK/00150",
+  "__ts": "2018-07-20 07:58:38.261187",
+  "create_by": "Administrator",
+  "orderId": "029b6335-9c64-422c-ab42-b21946a8cb7d",
+  "state": "delivered",
+  "name": "SO142",
+  "last_updated_by": "Lê Thị Tuyết",
+  "create_date": 1532073465
 }

@@ -16,7 +16,6 @@
   },
   "type": "object",
   "required": [
-    "name",
     "orderId",
     "exportCode",
     "state",
@@ -27,9 +26,6 @@
     "id"
   ],
   "properties":{
-    "name":{
-      "$ref": "#/definitions/nonEmptyString"
-    },
     "orderId":{
       "$ref": "#/definitions/nonEmptyString"
     },
