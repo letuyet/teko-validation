@@ -54,6 +54,7 @@
           "$ref": "#/definitions/nonEmptyString",
           "enum": [
             "ASIA_ORDER",
+            "SALE_ORDER",
             "POS_ORDER",
             "ONLINE_ORDER",
             "TLS_ORDER",
@@ -583,6 +584,18 @@
               "properties": {
                 "requestType": {
                   "enum": [
+                    "SALE_ORDER"
+                  ]
+                },
+                "orderId": {
+                  "$ref": "#/definitions/nonEmptyString"
+                }
+              }
+            },
+            {
+              "properties": {
+                "requestType": {
+                  "enum": [
                     "ONLINE_ORDER",
                     "TLS_ORDER",
                     "AGENT_ORDER"
@@ -595,7 +608,7 @@
               }
             }
           ],
-          "err_msg": "requestType = 'ASIA_ORDER', orderId = '', requestType = 'POS_ORDER', orderId chua chu va so, con lai orderId chi chưa so"
+          "err_msg": "requestType = 'ASIA_ORDER', orderId = '', requestType = 'SALE_ORDER', orderId is string, requestType = 'POS_ORDER', orderId chua chu va so, con lai orderId chi chưa so"
         }
       ]
     },
