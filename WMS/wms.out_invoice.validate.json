@@ -25,7 +25,7 @@
   ],
   "properties": {
     "number": {
-      "$ref": "#/definitions/nonEmptyString",
+      "type": "string",
       "minLength": 8,
       "maxLength": 8
     },
